@@ -30,7 +30,8 @@
   font-family: "Open Sans", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: #00695c;
+  background: #219688;
+  
   width: 100%;
   border: 0;
   padding: 15px;
@@ -42,7 +43,7 @@
   cursor: pointer;
 }
 .form button:hover,.form button:active,.form button:focus {
-  background: #219688;
+  background: #00695c;
   color: #ffeb3b;
 }
 .form .message {
@@ -92,10 +93,10 @@
 }
 body {
   background: #00695c; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #219688, #00695c);
-  background: -moz-linear-gradient(right, #219688, #00695c);
-  background: -o-linear-gradient(right, #219688, #00695c);
-  background: linear-gradient(to left, #219688, #00695c);
+  background: -webkit-linear-gradient(right, #00695c, #00695c);
+  background: -moz-linear-gradient(right, #00695c, #00695c);
+  background: -o-linear-gradient(right, #00695c, #00695c);
+  background: linear-gradient(to left, #00695c, #00695c);
   font-family: "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      

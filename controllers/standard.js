@@ -21,6 +21,17 @@ exports.getAwaitingMachines = (req, res, next) => {
             machines: rows
         }); 
     })
-    .catch(err => console.log(err));
-     
+    .catch(err => console.log(err));   
+};
+
+exports.getEndingMachines = (req, res, next) => {
+    Machine.fetchAll()
+    .then(([rows, fieldData]) => {
+        res.render('ending.ejs', {
+            pageTitle: 'Kończące się przegląd/ubezpieczenie',
+            path: '/ending',
+            machines: rows
+        }); 
+    })
+    .catch(err => console.log(err));   
 };

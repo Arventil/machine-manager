@@ -8,4 +8,6 @@ router.get('/awaitingMachines', standardController.getAwaitingMachines);
 
 router.get('/allMachines', standardController.getAllMachines);
 
+router.get('/ending', standardController.getEndingMachines);
+
 module.exports = router;
