@@ -1,0 +1,27 @@
+.product-form {
+    width: 20rem;
+    max-width: 90%;
+    margin: auto;
+    display: block;
+}
+
+.machine_item {
+    width: 20rem;
+    max-width: 95%;
+    margin: 1rem;
+}
+
+.machine_name {
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.machine_price {
+    text-align: center;
+    color: #4d4d4d;
+    margin-bottom: 0.5rem;
+}
+
+.machine_description {
+    text-align: center;
+}
