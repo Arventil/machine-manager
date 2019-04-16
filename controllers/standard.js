@@ -9,8 +9,7 @@ exports.getAllMachines = (req, res, next) => {
             machines: rows
         }); 
     })
-    .catch(err => console.log(err));
-     
+    .catch(err => console.log(err));  
 };
 
 exports.getAwaitingMachines = (req, res, next) => {

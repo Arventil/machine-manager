@@ -16,12 +16,20 @@
     text-align: center;
 }
 
-.machine_price {
-    text-align: center;
-    color: #4d4d4d;
-    margin-bottom: 0.5rem;
+.machine_param{
+    font-size: 0.9rem;
+    padding: 0 10px;
+    font-weight: bold;
 }
 
-.machine_description {
-    text-align: center;
+.machine_param.green{
+    color: green;
+    font-size: 0.9rem;
+    padding: 0 10px;
+}
+
+.machine_param.red{
+    color: red;
+    font-size: 0.9rem;
+    padding: 0 10px;
 }
