@@ -1,5 +1,5 @@
 exports.getLoginPage = (req, res, next) => {
-    res.render('loginPage.ejs', {
+    res.render('auth/loginPage.ejs', {
         pageTitle: 'Login',
         path: '/'
     })
