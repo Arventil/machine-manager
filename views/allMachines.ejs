@@ -8,6 +8,16 @@
         <% if (machines.length > 0) { %>
             <div class="grid">
                 <% for (let machine of machines) { %>
+                    <!-- Ten mechanizm sprawdzania daty ubezpieczenia może wariować przy zmianach godzin na letnie / zimowe -->
+                    <% let ifInsuranceEnding;
+                       let ifInspectionEnding;
+                       if(machine.insuranceDate.getTime() - (60*60*24*14*1000)  <= new Date().getTime()){
+                            ifInsuranceEnding = true;
+                       }
+                       if(machine.inspectionDate.getTime() - (60*60*24*14*1000)  <= new Date().getTime()){
+                        ifInspectionEnding = true;
+                       }
+                       %>
                 <div class="grid">
                     <article class="card machine_item">
                         <header class="card__header">
@@ -61,7 +71,7 @@
                                     <td class="machine_param">
                                         Ważność przeglądu:
                                     </td>
-                                    <td class="machine_param">
+                                    <td class="machine_param <% if(ifInspectionEnding){ %> red <% } else { %>green <% } %>">
                                         <%= machine.inspectionDate.getDate() %>.<%= months[machine.inspectionDate.getMonth()] %>.<%= machine.inspectionDate.getFullYear() %>
                                     </td>
                                 </tr>
@@ -69,7 +79,7 @@
                                     <td class="machine_param">
                                         Ważność ubezpieczenia:
                                     </td>
-                                    <td class="machine_param">
+                                    <td class="machine_param <% if(ifInsuranceEnding){ %> red <% } else { %>green <% } %>">
                                         <%= machine.insuranceDate.getDate() %>.<%= months[machine.insuranceDate.getMonth()] %>.<%= machine.insuranceDate.getFullYear() %>
                                     </td>
                                 </tr>
