@@ -1,0 +1,38 @@
+<%- include('../../includes/head') %>
+<link rel="stylesheet" href="/css/forms.css">
+</head>
+<body>
+    <%- include('../../includes/adminNavigation') %>
+    <main>
+        <form class="product-form" action="/admin/addMachine" method="POST">
+            <div class="form-control">
+                <label for="machineName">Nazwa maszyny</label>
+                <input type="text" name="machineName" id="title">
+            </div>
+            <div class="form-control">
+                <label for="ifII">Czy wymaga przeglądu i ubezpieczenia?</label>
+                <input type="checkbox" name="ifII" id="ifII" value="true" style="width: auto; display: initial;">Tak/Nie<br>
+            </div>
+            <div class="form-control iDate">
+                <label for="inspectionDate">Data ważności przeglądu</label>
+                <input type="date" name="inspectionDate" id="inspectionDate">
+            </div>
+            <div class="form-control iDate">
+                <label for="insuranceDate">Data ważności ubezpieczenia</label>
+                <input type="date" name="insuranceDate" id="insuranceDate">
+            </div>
+            <div class="form-control">
+                <label for="price">Price</label>
+                <input type="number" name="price" id="price" step="0.01">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" rows="5"></textarea>
+            </div>
+
+            <button class="btn" type="submit">Dodaj maszynę</button>
+        </form>
+    </main>
+    <script src="/js/addMachineForm.js"></script>
+</body>
+</html>
