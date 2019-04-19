@@ -3,7 +3,7 @@ const Machine = require('../models/machine');
 exports.getAllMachines = (req, res, next) => {
     Machine.fetchAll()
     .then(([rows, fieldData]) => {
-        res.render('allMachines.ejs', {
+        res.render('standard/allMachines.ejs', {
             pageTitle: 'Wszystkie',
             path: '/allMachines',
             machines: rows
@@ -15,7 +15,7 @@ exports.getAllMachines = (req, res, next) => {
 exports.getAwaitingMachines = (req, res, next) => {
     Machine.fetchAll()
     .then(([rows, fieldData]) => {
-        res.render('awaiting.ejs', {
+        res.render('standard/awaiting.ejs', {
             pageTitle: 'Oczekujące',
             path: '/awaitingMachines',
             machines: rows
@@ -27,7 +27,7 @@ exports.getAwaitingMachines = (req, res, next) => {
 exports.getEndingMachines = (req, res, next) => {
     Machine.fetchAll()
     .then(([rows, fieldData]) => {
-        res.render('ending.ejs', {
+        res.render('standard/ending.ejs', {
             pageTitle: 'Kończące się przegląd/ubezpieczenie',
             path: '/ending',
             machines: rows

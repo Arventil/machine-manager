@@ -1,0 +1,24 @@
+<div class="backdrop"></div>
+<header class="main-header">
+    <button id="side-menu-toggle">Menu</button>
+    <nav class="main-header__nav">
+        <ul class="main-header__item-list">
+            <li class="main-header__item">
+                <a class="<%= path === '/admin/main' ? 'active' : '' %>" href="/admin/main">Panel Administratora</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/admin/editII' ? 'active' : '' %>" href="/admin/editII">Edytuj przegląd/ubezpieczenie</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/admin/addMachine' ? 'active' : '' %>" href="/admin/addMachine">Dodaj sprzęt</a>
+            </li>
+            <li class="main-header__item">
+                <a href="/awaitingMachines">Powrót</a>
+            </li>
+        </ul>
+            <div class="main-header__item" style="position: absolute; right: 20px;">
+                <a href="/logout">Wyloguj</a>
+            </div>
+        
+    </nav>
+</header>

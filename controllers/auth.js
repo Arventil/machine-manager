@@ -23,3 +23,7 @@ exports.postLoginPage = (req, res, next) => {
         res.redirect('/');
     }
 }
+
+exports.getLogout = (req, res, next) => {
+    res.redirect('/');
+}
