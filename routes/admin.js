@@ -8,4 +8,6 @@ router.get('/main', adminController.getMain);
 
 router.get('/addMachine', adminController.getAddMachine);
 
+router.post('/addMachine', adminController.postAddMachine);
+
 module.exports = router;
