@@ -1,3 +1,16 @@
+.form-container{
+    padding: 10px;
+    width: 80%;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+.machine-form {
+    width: 100%;
+    max-width: 90%;
+    margin: auto;
+    display: block;
+}
+
 .form-control {
     margin: 1rem 0;
 }
@@ -23,8 +36,13 @@
     outline-color: #00695c;
 }
 
-.iDate
+.iDate,
+.DH,
+.WH,
+.MH,
+.QH,
+.HYH,
+.YH
 {
     display: none;
-    transition-duration: 4s;
 }

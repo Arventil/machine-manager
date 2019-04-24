@@ -4,35 +4,93 @@
 <body>
     <%- include('../../includes/adminNavigation') %>
     <main>
-        <form class="product-form" action="/admin/addMachine" method="POST">
-            <div class="form-control">
-                <label for="machineName">Nazwa maszyny</label>
-                <input type="text" name="machineName" id="title">
-            </div>
-            <div class="form-control">
-                <label for="ifII">Czy wymaga przeglądu i ubezpieczenia?</label>
-                <input type="checkbox" name="ifII" id="ifII" value="true" style="width: auto; display: initial;">Tak/Nie<br>
-            </div>
-            <div class="form-control iDate">
-                <label for="inspectionDate">Data ważności przeglądu</label>
-                <input type="date" name="inspectionDate" id="inspectionDate">
-            </div>
-            <div class="form-control iDate">
-                <label for="insuranceDate">Data ważności ubezpieczenia</label>
-                <input type="date" name="insuranceDate" id="insuranceDate">
-            </div>
-            <div class="form-control">
-                <label for="price">Price</label>
-                <input type="number" name="price" id="price" step="0.01">
-            </div>
-            <div class="form-control">
-                <label for="description">Description</label>
-                <textarea name="description" id="description" rows="5"></textarea>
-            </div>
-
-            <button class="btn" type="submit">Dodaj maszynę</button>
-        </form>
+        <div class="form-container">
+            <form class="machine-form" action="/admin/addMachine" method="POST">
+                <div class="form-control">
+                    <label for="machineName">Nazwa maszyny</label>
+                    <input type="text" name="machineName" id="title">
+                </div>
+                <br>
+                <div class="form-control">
+                    <label for="ifII">Czy wymaga przeglądu i ubezpieczenia?</label>
+                    <input type="checkbox" name="ifII" id="ifII" value="true"
+                        style="width: auto; display: initial;">Tak/Nie<br>
+                </div>
+                <div class="form-control iDate">
+                    <label for="inspectionDate">Data ważności przeglądu</label>
+                    <input type="date" name="inspectionDate" id="inspectionDate">
+                </div>
+                <div class="form-control iDate">
+                    <label for="insuranceDate">Data ważności ubezpieczenia</label>
+                    <input type="date" name="insuranceDate" id="insuranceDate">
+                </div>
+                <br>
+                <div class="form-control">
+                    <label for="ifDH">Dzienna obsługa?</label>
+                    <input type="checkbox" name="ifDH" id="ifDH" value="true"
+                        style="width: auto; display: initial;">Tak/Nie<br>
+                </div>
+                <div class="form-control DH">
+                    <label for="dailyHand">Dodaj pola dziennej obsługi (oddzielone przecinkami i "enterem")</label>
+                    <textarea name="dailyHand" id="dailyHand" rows="4"></textarea>
+                </div>
+                <br>
+                <div class="form-control">
+                    <label for="ifWH">Tygodniowa obsługa?</label>
+                    <input type="checkbox" name="ifWH" id="ifWH" value="true"
+                        style="width: auto; display: initial;">Tak/Nie<br>
+                </div>
+                <div class="form-control WH">
+                    <label for="weeklyHand">Dodaj pole tygodniowej obsługi (oddzielone przecinkami i "enterem")</label>
+                    <textarea name="weeklyHand" id="weeklyHand" rows="4"></textarea>
+                </div>
+                <br>
+                <div class="form-control">
+                    <label for="ifMH">Miesięczna obsługa?</label>
+                    <input type="checkbox" name="ifMH" id="ifMH" value="true"
+                        style="width: auto; display: initial;">Tak/Nie<br>
+                </div>
+                <div class="form-control MH">
+                    <label for="monthlyHand">Dodaj pole miesięcznej obsługi (oddzielone przecinkami i "enterem")</label>
+                    <textarea name="monthlyHand" id="monthlyHand" rows="4"></textarea>
+                </div>
+                <br>
+                <div class="form-control">
+                    <label for="ifQH">Kwartalna obsługa?</label>
+                    <input type="checkbox" name="ifQH" id="ifQH" value="true"
+                        style="width: auto; display: initial;">Tak/Nie<br>
+                </div>
+                <div class="form-control QH">
+                    <label for="quartalyHand">Dodaj pole kwartalnej obsługi (oddzielone przecinkami i "enterem")</label>
+                    <textarea name="quartalyHand" id="quartalyHand" rows="4"></textarea>
+                </div>
+                <br>
+                <div class="form-control">
+                    <label for="ifHYH">Półroczna obsługa?</label>
+                    <input type="checkbox" name="ifHYH" id="ifHYH" value="true"
+                        style="width: auto; display: initial;">Tak/Nie<br>
+                </div>
+                <div class="form-control HYH">
+                    <label for="halfYearlyHand">Dodaj pole półrocznej obsługi (oddzielone przecinkami i "enterem")</label>
+                    <textarea name="halfYearlyHand" id="halfYearlyHand" rows="4"></textarea>
+                </div>
+                <br>
+                <div class="form-control">
+                    <label for="ifYH">Roczna obsługa?</label>
+                    <input type="checkbox" name="ifYH" id="ifYH" value="true"
+                        style="width: auto; display: initial;">Tak/Nie<br>
+                </div>
+                <div class="form-control YH">
+                    <label for="yearlyHand">Dodaj pole rocznej obsługi (oddzielone przecinkami i "enterem")</label>
+                    <textarea name="yearlyHand" id="yearlyHand" rows="4"></textarea>
+                </div>
+                <br>
+                <button class="btn" type="submit">Dodaj maszynę</button>
+            </form>
+            <br>
+        </div>
     </main>
     <script src="/js/addMachineForm.js"></script>
 </body>
+
 </html>
