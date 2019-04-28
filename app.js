@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const bodyBarser = require('body-parser');
 
-const db = require('./util/database');
+const sequelize = require('./util/database');
 
 const standardRoutes = require('./routes/standard');
 const authRoutes = require('./routes/auth');
@@ -16,7 +16,7 @@ app.set('views', 'views');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(bodyBarser.urlencoded({extended: false}));
+app.use(bodyBarser.urlencoded({ extended: false }));
 
 app.use(standardRoutes);
 app.use(authRoutes);
@@ -27,6 +27,15 @@ app.use((req, res, next) => {
         pageTitle: 'W budowie!',
         path: ''
     })
-})
+});
 
-app.listen(3000);
+sequelize
+    .sync()
+    .then((result) => {
+        // console.log(result);
+        app.listen(3000);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
