@@ -26,6 +26,6 @@ module.exports = class Machine {
     }
 
     static findById(id){
-       
+       return db.execute('SELECT * FROM machines WHERE id = ?', [id]);
     }
 }
