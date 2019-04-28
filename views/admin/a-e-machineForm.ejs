@@ -5,10 +5,10 @@
     <%- include('../../includes/adminNavigation') %>
     <main>
         <div class="form-container">
-            <form class="machine-form" action="/admin/addMachine" method="POST">
+            <form class="machine-form" action="/admin/<% if(!editing){ %>addMachine<% } else { %>editMachine<% } %>" method="POST">
                 <div class="form-control">
                     <label for="name">Nazwa maszyny</label>
-                    <input type="text" name="name" id="name">
+                    <input type="text" name="name" id="name" value="<% if(editing){ %><%= machine.name %><% } %>">
                 </div>
                 <br>
                 <div class="form-control">
@@ -18,11 +18,11 @@
                 </div>
                 <div class="form-control iDate">
                     <label for="inspectionDate">Data ważności przeglądu</label>
-                    <input type="date" name="inspectionDate" id="inspectionDate">
+                    <input type="date" name="inspectionDate" id="inspectionDate" value="<% if(editing){ %><%= machine.inspectionDate %><% } %>">
                 </div>
                 <div class="form-control iDate">
                     <label for="insuranceDate">Data ważności ubezpieczenia</label>
-                    <input type="date" name="insuranceDate" id="insuranceDate">
+                    <input type="date" name="insuranceDate" id="insuranceDate" value="<% if(editing){ %><%= machine.insuranceDate %><% } %>">
                 </div>
                 <br>
                 <div class="form-control">
@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-control WH">
                     <label for="weeklyHand">Dodaj pole tygodniowej obsługi (oddzielone przecinkami i "enterem")</label>
-                    <textarea name="weeklyHand" id="weeklyHand" rows="4"></textarea>
+                    <textarea name="weeklyHand" id="weeklyHand" rows="4" value="<% if(editing){ %><%= machine.weeklyHand %><% } %>"></textarea>
                 </div>
                 <br>
                 <div class="form-control">
@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-control MH">
                     <label for="monthlyHand">Dodaj pole miesięcznej obsługi (oddzielone przecinkami i "enterem")</label>
-                    <textarea name="monthlyHand" id="monthlyHand" rows="4"></textarea>
+                    <textarea name="monthlyHand" id="monthlyHand" rows="4" value="<% if(editing){ %><%= machine.monthlyHand %><% } %>"></textarea>
                 </div>
                 <br>
                 <div class="form-control">
@@ -62,7 +62,7 @@
                 </div>
                 <div class="form-control QH">
                     <label for="quartalyHand">Dodaj pole kwartalnej obsługi (oddzielone przecinkami i "enterem")</label>
-                    <textarea name="quartalyHand" id="quartalyHand" rows="4"></textarea>
+                    <textarea name="quartalyHand" id="quartalyHand" rows="4" value="<% if(editing){ %><%= machine.quartalyHand %><% } %>"></textarea>
                 </div>
                 <br>
                 <div class="form-control">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="form-control HYH">
                     <label for="halfYearlyHand">Dodaj pole półrocznej obsługi (oddzielone przecinkami i "enterem")</label>
-                    <textarea name="halfYearlyHand" id="halfYearlyHand" rows="4"></textarea>
+                    <textarea name="halfYearlyHand" id="halfYearlyHand" rows="4" value="<% if(editing){ %><%= machine.halfYearlyHand %><% } %>"></textarea>
                 </div>
                 <br>
                 <div class="form-control">
@@ -82,10 +82,13 @@
                 </div>
                 <div class="form-control YH">
                     <label for="yearlyHand">Dodaj pole rocznej obsługi (oddzielone przecinkami i "enterem")</label>
-                    <textarea name="yearlyHand" id="yearlyHand" rows="4"></textarea>
+                    <textarea name="yearlyHand" id="yearlyHand" rows="4" value="<% if(editing){ %><%= machine.yearlyHand %><% } %>"></textarea>
                 </div>
+                <% if(editing) { %>
+                    <input type="hidden" value="<%= machine.id %>" name="machineId">
+                <% } %>
                 <br>
-                <button class="btn" type="submit">Dodaj maszynę</button>
+                <button class="btn" type="submit"><% if(!editing){ %>Dodaj maszynę<% } else { %>Zapisz zmiany <% } %></button>
             </form>
             <br>
         </div>

@@ -9,15 +9,16 @@ exports.getMain = (req, res, next) => {
                 machines: products
             });
         })
-        .catch((err) =>{
+        .catch((err) => {
             console.log(err);
         })
 }
 
 exports.getAddMachine = (req, res, next) => {
-    res.render('admin/addMachine.ejs', {
+    res.render('admin/a-e-machineForm.ejs', {
         pageTitle: 'Dodaj produkt',
         path: '/admin/addMachine',
+        editing: false
     })
 }
 
@@ -52,12 +53,91 @@ exports.postAddMachine = (req, res, next) => {
     })
         .then((result) => {
             console.log('Maszyna dodana!');
+            res.redirect('/admin/main');
         })
         .catch((err) => {
             console.log(err);
         });
 
-    res.redirect('/admin/addMachine');
+    
+}
+
+exports.getEditMachine = (req, res, next) => {
+    const editMode = req.query.edit;
+    if (!editMode) {
+        return res.redirect('/admin/main');
+    }
+    const machineId = req.params.machineId;
+
+    Machine.findByPk(machineId)
+        .then(machine => {
+            res.render('admin/a-e-machineForm.ejs', {
+                pageTitle: 'Edytuj maszynę',
+                path: '/admin/editMachine',
+                editing: editMode,
+                machine: machine
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+exports.postEditMachine = (req, res, next) => {
+    const machineId = req.body.machineId;
+    let updatedMachineName = req.body.name;
+    let updatedInspectionDate = req.body.inspectionDate;
+    let updatedInsuranceDate = req.body.insuranceDate;
+    let updatedDHString = req.body.dailyHand;
+    let updatedDHTable = insertDailyHandsIntoTable(updatedDHString);
+    let updatedWHString = req.body.weeklyHand;
+    let updatedWHTable = insertDailyHandsIntoTable(updatedWHString);
+    let updatedMHString = req.body.monthlyHand;
+    let updatedMHTable = insertDailyHandsIntoTable(updatedMHString);
+    let updatedQHString = req.body.quartalyHand;
+    let updatedQHTable = insertDailyHandsIntoTable(updatedQHString);
+    let updatedHYHString = req.body.halfYearlyHand;
+    let updatedHYHTable = insertDailyHandsIntoTable(updatedHYHString);
+    let updatedYHString = req.body.yearlyHand;
+    let updatedYHTable = insertDailyHandsIntoTable(updatedYHString);
+
+    Machine.findByPk(machineId)
+        .then(machine => {
+            machine.name = updatedMachineName;
+            machine.inspectionDate = updatedInspectionDate;
+            machine.insuranceDate = updatedInsuranceDate;
+            machine.dailyHand = updatedDHTable;
+            machine.weeklyHand = updatedWHTable;
+            machine.monthlyHand = updatedMHTable;
+            machine.quartalyHand = updatedQHTable;
+            machine.halfYearlyHand = updatedHYHTable;
+            machine.yearlyHand = updatedYHTable;
+
+            return machine.save();
+        })
+        .then(() => {
+            console.log('Maszyna zaktualizowana!');
+            res.redirect('/admin/main');
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
+exports.postDeleteMachine = (req, res, next) => {
+    const machineId = req.body.machineId;
+    console.log(machineId);
+    Machine.findByPk(machineId)
+        .then(machine => {
+            return machine.destroy();
+        })
+        .then(() => {
+            console.log('Maszyna usunięta!');
+            res.redirect('/admin/main');
+        })
+        .catch(err => {
+            console.log(err);
+        })
 }
 
 

@@ -73,13 +73,10 @@
                         </div>
 
                         <div class="card__actions">
-                            <form action="/admin/edit" method="POST">
+                            <a class="btn" href="/admin/editMachine/<%= machine.id %>?edit=true">Edytuj</a>
+                            <form action="/admin/deleteMachine" method="POST">
                                 <input type="hidden" name="machineId" value="<%= machine.id %>">
-                                <button class="btn" type="submit">Edytuj</button>
-                            </form>
-                            <form action="/admin/delete" method="POST">
-                                <input type="hidden" name="machineId" value="<%= machine.id %>">
-                                <button class="btn" type="submit">Usuń</button>
+                                <button class="btn" type="submit" id="delete">Usuń</button>
                             </form>
                         </div>
                     </article>
@@ -89,4 +86,5 @@
             <h1>No Products Found!</h1>
         <% } %>
     </main>
+    <script src="/js/updateMachineForm.js"></script>
     <%- include('../../includes/end.ejs') %>

@@ -10,4 +10,10 @@ router.get('/addMachine', adminController.getAddMachine);
 
 router.post('/addMachine', adminController.postAddMachine);
 
+router.get('/editMachine/:machineId', adminController.getEditMachine);
+
+router.post('/editMachine', adminController.postEditMachine);
+
+router.post('/deleteMachine', adminController.postDeleteMachine);
+
 module.exports = router;
