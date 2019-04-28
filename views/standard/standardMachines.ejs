@@ -1,0 +1,91 @@
+<%- include('../../includes/head') %>
+<link rel="stylesheet" href="/css/machine.css">
+</head>
+
+<body>
+    <%- include('../../includes/navigation.ejs') %>
+    <main>
+        <% if (machines.length > 0) { %>
+        <div class="grid">
+            <% for (let machine of machines) { %>
+            <div class="grid">
+                <article class="card machine_item">
+                    <header class="card__header">
+                        <h1 class="machine_name"><%= machine.name %></h1>
+                    </header>
+                    <div>
+                        <table style="margin: 10px auto;">
+                            <tr>
+                                <td class="machine_param">
+                                    Obsługa codzienna:
+                                </td>
+                                <td class="machine_param red">
+                                    Oczekuje
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="machine_param">
+                                    Obsługa tygodniowa:
+                                </td>
+                                <td class="machine_param green">
+                                    Wykonana
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="machine_param">
+                                    Obsługa kwartalna:
+                                </td>
+                                <td class="machine_param green">
+                                    Wykonana
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="machine_param">
+                                    Obsługa roczna:
+                                </td>
+                                <td class="machine_param green">
+                                    Wykonana
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="machine_param">
+                                    <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="machine_param">
+                                    Ważność przeglądu:
+                                </td>
+                                <td class="machine_param">
+                                    <%= machine.inspectionDate %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="machine_param">
+                                    Ważność ubezpieczenia:
+                                </td>
+                                <td class="machine_param">
+                                    <%= machine.insuranceDate %>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="card__actions">
+                        <form action="/control" method="POST">
+                            <input type="hidden" name="machineId" value="<%= machine.id %>">
+                            <button class="btn" type="submit">Rejestracja obsługi</button>
+                        </form>
+                        <form action="/history" method="POST">
+                            <input type="hidden" name="machineId" value="<%= machine.id %>">
+                            <button class="btn" type="submit">Historia</button>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <% } %>
+        <% } else { %>
+            <h1>No Products Found!</h1>
+        <% } %>
+    </main>
+    <%- include('../../includes/end.ejs') %>

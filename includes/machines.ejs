@@ -1,34 +1,20 @@
-<%- include('../../includes/head.ejs') %>
+<%- include('./head.ejs') %>
 <link rel="stylesheet" href="/css/machine.css">
 </head>
 
 <body>
-    <%- include('../../includes/navigation.ejs') %>
+    <%- include('./navigation.ejs') %>
     <main>
         <% if (machines.length > 0) { %>
             <div class="grid">
                 <% for (let machine of machines) { %>
-<!-- Ten mechanizm sprawdzania daty ubezpieczenia może wariować przy zmianach godzin na letnie / zimowe -->
-                    <% let ifInsuranceEnding;
-                       let ifInspectionEnding;
-                       if(machine.insuranceDate.getTime() - (60*60*24*14*1000)  <= new Date().getTime()){
-                            ifInsuranceEnding = true;
-                       }
-                       if(machine.inspectionDate.getTime() - (60*60*24*14*1000)  <= new Date().getTime()){
-                        ifInspectionEnding = true;
-                       }
-                       %>
-                    <% if(ifInsuranceEnding || ifInspectionEnding )  { %>
                         <div class="grid">
                             <article class="card machine_item">
                                 <header class="card__header">
                                     <h1 class="machine_name"><%= machine.name %></h1>
                                 </header>
                                 <div>
-                                    <% let months = [
-                                                "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"
-                                                ];
-                                            %>
+
                                     <table style="margin: 10px auto;">
                                         <tr>
                                             <td class="machine_param">
@@ -71,16 +57,16 @@
                                             <td class="machine_param">
                                                 Ważność przeglądu:
                                             </td>
-                                            <td class="machine_param <% if(ifInspectionEnding){ %> red <% } else { %> green <% } %>">
-                                                <%= machine.inspectionDate.getDate() %>.<%= months[machine.inspectionDate.getMonth()] %>.<%= machine.inspectionDate.getFullYear() %>
+                                            <td class="machine_param">
+                                                <%= machine.inspectionDate %>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="machine_param">
                                                 Ważność ubezpieczenia:
                                             </td>
-                                            <td class="machine_param <% if(ifInsuranceEnding){ %> red <% } else { %>green <% } %>">
-                                                <%= machine.insuranceDate.getDate() %>.<%= months[machine.insuranceDate.getMonth()] %>.<%= machine.insuranceDate.getFullYear() %>
+                                            <td class="machine_param">
+                                                <%= machine.insuranceDate %>
                                             </td>
                                         </tr>
                                     </table>
@@ -99,9 +85,8 @@
                             </article>
                         </div>
                     <% } %>
-                <% } %>
         <% } else { %>
             <h1>No Products Found!</h1>
         <% } %>
     </main>
-    <%- include('../../includes/end.ejs') %>
+    <%- include('./end.ejs') %>

@@ -1,13 +1,16 @@
 const Machine = require('../models/machine');
 
 exports.getMain = (req, res, next) => {
-    Machine.fetchAll()
-        .then(([rows, fieldData]) => {
-            res.render('admin/main.ejs', {
+    Machine.findAll()
+        .then(products => {
+            res.render('admin/adminMachines.ejs', {
                 pageTitle: 'Panel Administratora',
                 path: '/admin/main',
-                machines: rows
+                machines: products
             });
+        })
+        .catch((err) =>{
+            console.log(err);
         })
 }
 
@@ -48,7 +51,7 @@ exports.postAddMachine = (req, res, next) => {
         handStatus: ''
     })
         .then((result) => {
-            console.log(result);
+            console.log('Maszyna dodana!');
         })
         .catch((err) => {
             console.log(err);
