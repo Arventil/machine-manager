@@ -16,6 +16,8 @@ exports.postLoginPage = (req, res, next) => {
     password = req.body.loginPassword;
 
     if(loginName == properLoginName && password == properLoginPassword){
+        res.session.isLoggedIn = true;
+        res.session.userName = loginName;
         res.redirect('/awaitingMachines');
     }
     else

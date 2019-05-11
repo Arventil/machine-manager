@@ -53,7 +53,7 @@ exports.postAddMachine = (req, res, next) => {
         insuranceDate = null;
     }
 
-    Machine.create({
+    req.user.createMachine({
         name: machineName,
         ifInspectionInsurance: ifII,
         inspectionDate: inspectionDate,
@@ -110,6 +110,7 @@ exports.getEditMachine = (req, res, next) => {
         });
 }
 
+//Edytowanie danej maszyny na podstawie danych z formularza - na takiej samej zasadzie jak dodwanie nowej maszyny
 exports.postEditMachine = (req, res, next) => {
     const machineId = req.body.machineId;
     let updatedMachineName = req.body.name;
