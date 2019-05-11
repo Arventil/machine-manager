@@ -31,8 +31,8 @@
                         style="width: auto; display: initial;">Tak/Nie<br>
                 </div>
                 <div class="form-control DH">
-                    <label for="dailyHand">Dodaj pola dziennej obsługi (oddzielone przecinkami i "enterem")</label>
-                    <textarea name="dailyHand" id="dailyHand" rows="4"></textarea>
+                    <label for="dailyHand">Dodaj pola dziennej obsługi (oddzielone średnikami i "enterem")</label>
+                    <textarea name="dailyHand" id="dailyHand" rows="4"><% if(editing){ %><%= machine.dailyHand %><% } %></textarea>
                 </div>
                 <br>
                 <div class="form-control">
@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-control WH">
                     <label for="weeklyHand">Dodaj pole tygodniowej obsługi (oddzielone przecinkami i "enterem")</label>
-                    <textarea name="weeklyHand" id="weeklyHand" rows="4" value="<% if(editing){ %><%= machine.weeklyHand %><% } %>"></textarea>
+                    <textarea name="weeklyHand" id="weeklyHand" rows="4"><% if(editing){ %><%= machine.weeklyHand %><% } %></textarea>
                 </div>
                 <br>
                 <div class="form-control">
@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-control MH">
                     <label for="monthlyHand">Dodaj pole miesięcznej obsługi (oddzielone przecinkami i "enterem")</label>
-                    <textarea name="monthlyHand" id="monthlyHand" rows="4" value="<% if(editing){ %><%= machine.monthlyHand %><% } %>"></textarea>
+                    <textarea name="monthlyHand" id="monthlyHand" rows="4"><% if(editing){ %><%= machine.monthlyHand %><% } %></textarea>
                 </div>
                 <br>
                 <div class="form-control">
@@ -62,7 +62,7 @@
                 </div>
                 <div class="form-control QH">
                     <label for="quartalyHand">Dodaj pole kwartalnej obsługi (oddzielone przecinkami i "enterem")</label>
-                    <textarea name="quartalyHand" id="quartalyHand" rows="4" value="<% if(editing){ %><%= machine.quartalyHand %><% } %>"></textarea>
+                    <textarea name="quartalyHand" id="quartalyHand" rows="4"><% if(editing){ %><%= machine.quartalyHand %><% } %></textarea>
                 </div>
                 <br>
                 <div class="form-control">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="form-control HYH">
                     <label for="halfYearlyHand">Dodaj pole półrocznej obsługi (oddzielone przecinkami i "enterem")</label>
-                    <textarea name="halfYearlyHand" id="halfYearlyHand" rows="4" value="<% if(editing){ %><%= machine.halfYearlyHand %><% } %>"></textarea>
+                    <textarea name="halfYearlyHand" id="halfYearlyHand" rows="4"><% if(editing){ %><%= machine.halfYearlyHand %><% } %></textarea>
                 </div>
                 <br>
                 <div class="form-control">
@@ -82,7 +82,7 @@
                 </div>
                 <div class="form-control YH">
                     <label for="yearlyHand">Dodaj pole rocznej obsługi (oddzielone przecinkami i "enterem")</label>
-                    <textarea name="yearlyHand" id="yearlyHand" rows="4" value="<% if(editing){ %><%= machine.yearlyHand %><% } %>"></textarea>
+                    <textarea name="yearlyHand" id="yearlyHand" rows="4"><% if(editing){ %><%= machine.yearlyHand %><% } %></textarea>
                 </div>
                 <% if(editing) { %>
                     <input type="hidden" value="<%= machine.id %>" name="machineId">

@@ -22,6 +22,7 @@ exports.getAddMachine = (req, res, next) => {
     })
 }
 
+// Dane pobrane z formularza dodawania produktu są wrzucane do bazy danych - następuje odpowiednie formatowanie definicji obsług, w celu przechowania ich w bazie i dalszego na nich działania
 exports.postAddMachine = (req, res, next) => {
     let machineName = req.body.name;
     let inspectionDate = req.body.inspectionDate;
@@ -62,15 +63,21 @@ exports.postAddMachine = (req, res, next) => {
     
 }
 
+// Do formularza edycji maszyny przesyłane są dane z bazy - definicje obsług są odpowiednio sformatowane, aby mogły być poprawnie wyświetlone w textarea
 exports.getEditMachine = (req, res, next) => {
     const editMode = req.query.edit;
     if (!editMode) {
         return res.redirect('/admin/main');
     }
     const machineId = req.params.machineId;
-
     Machine.findByPk(machineId)
         .then(machine => {
+            machine.dailyHand = retriveHandsFromTable(machine.dailyHand);
+            machine.weeklyHand = retriveHandsFromTable(machine.weeklyHand);
+            machine.monthlyHand = retriveHandsFromTable(machine.monthlyHand);
+            machine.quartalyHand = retriveHandsFromTable(machine.quartalyHand);
+            machine.halfYearlyHand = retriveHandsFromTable(machine.halfYearlyHand);
+            machine.yearlyHand = retriveHandsFromTable(machine.yearlyHand);
             res.render('admin/a-e-machineForm.ejs', {
                 pageTitle: 'Edytuj maszynę',
                 path: '/admin/editMachine',
@@ -89,17 +96,17 @@ exports.postEditMachine = (req, res, next) => {
     let updatedInspectionDate = req.body.inspectionDate;
     let updatedInsuranceDate = req.body.insuranceDate;
     let updatedDHString = req.body.dailyHand;
-    let updatedDHTable = insertDailyHandsIntoTable(updatedDHString);
+    let updatedDHTable = insertHandsIntoTable(updatedDHString);
     let updatedWHString = req.body.weeklyHand;
-    let updatedWHTable = insertDailyHandsIntoTable(updatedWHString);
+    let updatedWHTable = insertHandsIntoTable(updatedWHString);
     let updatedMHString = req.body.monthlyHand;
-    let updatedMHTable = insertDailyHandsIntoTable(updatedMHString);
+    let updatedMHTable = insertHandsIntoTable(updatedMHString);
     let updatedQHString = req.body.quartalyHand;
-    let updatedQHTable = insertDailyHandsIntoTable(updatedQHString);
+    let updatedQHTable = insertHandsIntoTable(updatedQHString);
     let updatedHYHString = req.body.halfYearlyHand;
-    let updatedHYHTable = insertDailyHandsIntoTable(updatedHYHString);
+    let updatedHYHTable = insertHandsIntoTable(updatedHYHString);
     let updatedYHString = req.body.yearlyHand;
-    let updatedYHTable = insertDailyHandsIntoTable(updatedYHString);
+    let updatedYHTable = insertHandsIntoTable(updatedYHString);
 
     Machine.findByPk(machineId)
         .then(machine => {
@@ -142,12 +149,12 @@ exports.postDeleteMachine = (req, res, next) => {
 
 
 // Pobiera dane do danej osbługi (np. dziennej) z przekazanego do funkcji parametru - czyste dane z req.body dotyczące odpowiedniej obsługi, 
-// a następnie dzieli je na podstawie przecinków, usuwa znaki "enteru" i wrzuca je do tablicy, którą zwraca, uprzednio przerabiając ją na string za pomocą JSON.
-function insertDailyHandsIntoTable(bodyHandString) {
+// a następnie dzieli je na podstawie średników, usuwa znaki "enteru" i wrzuca je do tablicy, którą zwraca, uprzednio przerabiając ją na string za pomocą JSON.
+function insertHandsIntoTable(bodyHandString) {
     let hTable = [];
     let hRecord = '';
     for (let a = 0; a < bodyHandString.length; a++) {
-        if (bodyHandString[a] != ',') {
+        if (bodyHandString[a] != ';') {
             hRecord = hRecord + bodyHandString[a];
         }
         else {
@@ -169,4 +176,16 @@ function insertDailyHandsIntoTable(bodyHandString) {
     }
 
     return JSON.stringify(hTable);
+}
+
+//Funckja odwrotona do insertHandsIntoTable - pobiera dane z bazy (skonwertowane wcześniej za pomocą insertHandsIntoTable), a następnie przywraca je do pierwotnej postaci - do wyświetlenia w textarea
+function retriveHandsFromTable(jHTable){
+    let hTable = JSON.parse(jHTable);
+    let hString = '';
+
+    for(let a = 0; a < hTable.length; a++){
+        hString = hString + hTable[a] + ';' + '\r' + '\n';
+    }
+
+    return hString;
 }
