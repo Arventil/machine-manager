@@ -13,8 +13,8 @@
                 <br>
                 <div class="form-control">
                     <label for="ifII">Czy wymaga przeglądu i ubezpieczenia?</label>
-                    <input type="checkbox" name="ifII" id="ifII" value="true"
-                        style="width: auto; display: initial;">Tak/Nie<br>
+                    <input type="checkbox" name="ifII" id="ifII"  <% if(editing){ %> <%= machine.ifInspectionInsurance ? "checked" : "" %> <% } %> 
+                    style="width: auto; display: initial;">Tak/Nie<br>
                 </div>
                 <div class="form-control iDate">
                     <label for="inspectionDate">Data ważności przeglądu</label>
@@ -27,7 +27,7 @@
                 <br>
                 <div class="form-control">
                     <label for="ifDH">Dzienna obsługa?</label>
-                    <input type="checkbox" name="ifDH" id="ifDH" value="true"
+                    <input type="checkbox" name="ifDH" id="ifDH" <% if(editing){ %> <%= machine.ifDailyHand ? "checked" : "" %> <% } %>
                         style="width: auto; display: initial;">Tak/Nie<br>
                 </div>
                 <div class="form-control DH">
@@ -37,7 +37,7 @@
                 <br>
                 <div class="form-control">
                     <label for="ifWH">Tygodniowa obsługa?</label>
-                    <input type="checkbox" name="ifWH" id="ifWH" value="true"
+                    <input type="checkbox" name="ifWH" id="ifWH" <% if(editing){ %> <%= machine.ifWeeklyHand ? "checked" : "" %> <% } %>
                         style="width: auto; display: initial;">Tak/Nie<br>
                 </div>
                 <div class="form-control WH">
@@ -47,7 +47,7 @@
                 <br>
                 <div class="form-control">
                     <label for="ifMH">Miesięczna obsługa?</label>
-                    <input type="checkbox" name="ifMH" id="ifMH" value="true"
+                    <input type="checkbox" name="ifMH" id="ifMH" <% if(editing){ %> <%= machine.ifMonthlyHand ? "checked" : "" %> <% } %>
                         style="width: auto; display: initial;">Tak/Nie<br>
                 </div>
                 <div class="form-control MH">
@@ -57,7 +57,7 @@
                 <br>
                 <div class="form-control">
                     <label for="ifQH">Kwartalna obsługa?</label>
-                    <input type="checkbox" name="ifQH" id="ifQH" value="true"
+                    <input type="checkbox" name="ifQH" id="ifQH" <% if(editing){ %> <%= machine.ifQuartalyHand ? "checked" : "" %> <% } %>
                         style="width: auto; display: initial;">Tak/Nie<br>
                 </div>
                 <div class="form-control QH">
@@ -67,7 +67,7 @@
                 <br>
                 <div class="form-control">
                     <label for="ifHYH">Półroczna obsługa?</label>
-                    <input type="checkbox" name="ifHYH" id="ifHYH" value="true"
+                    <input type="checkbox" name="ifHYH" id="ifHYH" <% if(editing){ %> <%= machine.ifHalfYearlyHand ? "checked" : "" %> <% } %>
                         style="width: auto; display: initial;">Tak/Nie<br>
                 </div>
                 <div class="form-control HYH">
@@ -77,7 +77,7 @@
                 <br>
                 <div class="form-control">
                     <label for="ifYH">Roczna obsługa?</label>
-                    <input type="checkbox" name="ifYH" id="ifYH" value="true"
+                    <input type="checkbox" name="ifYH" id="ifYH" <% if(editing){ %> <%= machine.ifYearlyHand ? "checked" : "" %> <% } %>
                         style="width: auto; display: initial;">Tak/Nie<br>
                 </div>
                 <div class="form-control YH">

@@ -16,6 +16,14 @@ document.addEventListener('DOMContentLoaded', function(){
     let HYHInputs = document.querySelector('.HYH');
     let YHInputs = document.querySelector('.YH');
 
+    showIDataInputs();
+    showDHInputs();
+    showWHInputs();
+    showMHInputs();
+    showQHInputs();
+    showHYHInputs();
+    showYHInputs();
+
     ifIICheck.addEventListener('change', showIDataInputs);
     ifDHCheck.addEventListener('change', showDHInputs);
     ifWHCheck.addEventListener('change', showWHInputs);
@@ -90,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     function showYHInputs(){
 
-        if(ifHYHCheck.checked == true){
+        if(ifYHCheck.checked == true){
             YHInputs.style.display = 'block';
         }
         else {

@@ -13,8 +13,35 @@ const Machine = sequelize.define('machine', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    ifInspectionInsurance: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    },
     inspectionDate: Sequelize.DATEONLY,
     insuranceDate: Sequelize.DATEONLY,
+    ifDailyHand: {
+        type: Sequelize.BOOLEAN,
+    },
+    ifWeeklyHand: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    },
+    ifMonthlyHand: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    },
+    ifQuartalyHand: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    },
+    ifHalfYearlyHand: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    },
+    ifYearlyHand: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    },
     dailyHand: Sequelize.STRING,
     weeklyHand: Sequelize.STRING,
     monthlyHand: Sequelize.STRING,

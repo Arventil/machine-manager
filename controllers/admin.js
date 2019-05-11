@@ -25,25 +25,45 @@ exports.getAddMachine = (req, res, next) => {
 // Dane pobrane z formularza dodawania produktu są wrzucane do bazy danych - następuje odpowiednie formatowanie definicji obsług, w celu przechowania ich w bazie i dalszego na nich działania
 exports.postAddMachine = (req, res, next) => {
     let machineName = req.body.name;
+    let ifII = checkForHands(req.body.ifII);
+    let ifDH = checkForHands(req.body.ifDH);
+    let ifWH = checkForHands(req.body.ifWH);
+    let ifMH = checkForHands(req.body.ifMH);
+    let ifQH = checkForHands(req.body.ifQH);
+    let ifHYH = checkForHands(req.body.ifHYH);
+    let ifYH = checkForHands(req.body.ifYH);
     let inspectionDate = req.body.inspectionDate;
     let insuranceDate = req.body.insuranceDate;
     let dHString = req.body.dailyHand;
-    let dHTable = insertDailyHandsIntoTable(dHString);
+    let dHTable = insertHandsIntoTable(dHString);
     let wHString = req.body.weeklyHand;
-    let wHTable = insertDailyHandsIntoTable(wHString);
+    let wHTable = insertHandsIntoTable(wHString);
     let mHString = req.body.monthlyHand;
-    let mHTable = insertDailyHandsIntoTable(mHString);
+    let mHTable = insertHandsIntoTable(mHString);
     let qHString = req.body.quartalyHand;
-    let qHTable = insertDailyHandsIntoTable(qHString);
+    let qHTable = insertHandsIntoTable(qHString);
     let hYHString = req.body.halfYearlyHand;
-    let hYHTable = insertDailyHandsIntoTable(hYHString);
+    let hYHTable = insertHandsIntoTable(hYHString);
     let yHString = req.body.yearlyHand;
-    let yHTable = insertDailyHandsIntoTable(yHString);
+    let yHTable = insertHandsIntoTable(yHString);
+
+    if(!ifII)
+    {
+        inspectionDate = null;
+        insuranceDate = null;
+    }
 
     Machine.create({
         name: machineName,
+        ifInspectionInsurance: ifII,
         inspectionDate: inspectionDate,
         insuranceDate: insuranceDate,
+        ifDailyHand: ifDH,
+        ifWeeklyHand: ifWH,
+        ifMonthlyHand: ifMH,
+        ifQuartalyHand: ifQH,
+        ifHalfYearlyHand: ifHYH,
+        ifYearlyHand: ifYH,
         dailyHand: dHTable,
         weeklyHand: wHTable,
         monthlyHand: mHTable,
@@ -60,7 +80,7 @@ exports.postAddMachine = (req, res, next) => {
             console.log(err);
         });
 
-    
+
 }
 
 // Do formularza edycji maszyny przesyłane są dane z bazy - definicje obsług są odpowiednio sformatowane, aby mogły być poprawnie wyświetlone w textarea
@@ -93,6 +113,13 @@ exports.getEditMachine = (req, res, next) => {
 exports.postEditMachine = (req, res, next) => {
     const machineId = req.body.machineId;
     let updatedMachineName = req.body.name;
+    let updatedIfII = checkForHands(req.body.ifII);
+    let updatedIfDH = checkForHands(req.body.ifDH);
+    let updatedIfWH = checkForHands(req.body.ifWH);
+    let updatedIfMH = checkForHands(req.body.ifMH);
+    let updatedIfQH = checkForHands(req.body.ifQH);
+    let updatedIfHYH = checkForHands(req.body.ifHYH);
+    let updatedIfYH = checkForHands(req.body.ifYH);
     let updatedInspectionDate = req.body.inspectionDate;
     let updatedInsuranceDate = req.body.insuranceDate;
     let updatedDHString = req.body.dailyHand;
@@ -108,11 +135,19 @@ exports.postEditMachine = (req, res, next) => {
     let updatedYHString = req.body.yearlyHand;
     let updatedYHTable = insertHandsIntoTable(updatedYHString);
 
+
     Machine.findByPk(machineId)
         .then(machine => {
             machine.name = updatedMachineName;
+            ifInspectionInsurance= updatedIfII;
             machine.inspectionDate = updatedInspectionDate;
             machine.insuranceDate = updatedInsuranceDate;
+            ifDailyHand = updatedIfDH;
+            ifWeeklyHand = updatedIfWH;
+            ifMonthlyHand = updatedIfMH;
+            ifQuartalyHand = updatedIfQH;
+            ifHalfYearlyHand = updatedIfHYH;
+            ifYearlyHand = updatedIfYH;
             machine.dailyHand = updatedDHTable;
             machine.weeklyHand = updatedWHTable;
             machine.monthlyHand = updatedMHTable;
@@ -179,13 +214,26 @@ function insertHandsIntoTable(bodyHandString) {
 }
 
 //Funckja odwrotona do insertHandsIntoTable - pobiera dane z bazy (skonwertowane wcześniej za pomocą insertHandsIntoTable), a następnie przywraca je do pierwotnej postaci - do wyświetlenia w textarea
-function retriveHandsFromTable(jHTable){
+function retriveHandsFromTable(jHTable) {
     let hTable = JSON.parse(jHTable);
     let hString = '';
 
-    for(let a = 0; a < hTable.length; a++){
+    for (let a = 0; a < hTable.length; a++) {
         hString = hString + hTable[a] + ';' + '\r' + '\n';
     }
 
     return hString;
+}
+
+//Funkcja przypisująca odpowiednie wartości do zmiennych określających, czy dana maszyna ma mieć dany typ obsługi / przeglądy i ubezpieczenia.
+
+function checkForHands(body) {
+    let bool;
+    if (body != undefined) {
+        bool = 1;
+    }
+    else {
+        bool = 0;
+    }
+    return bool;
 }
