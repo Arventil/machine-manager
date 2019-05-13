@@ -1,3 +1,7 @@
+const bcryptjs = require('bcryptjs');
+
+const User = require('../models/user');
+
 exports.getLoginPage = (req, res, next) => {
     console.log(req.session.isLoggedIn);
     console.log(req.session.userName);
@@ -8,24 +12,32 @@ exports.getLoginPage = (req, res, next) => {
 }
 
 exports.postLoginPage = (req, res, next) => {
-    const properLoginName = 'admin';
-    const properLoginPassword = 'admin';
 
-    let loginName;
-    let password;
+    let loginName = req.body.loginName;
+    let password = req.body.loginPassword;
 
-    loginName = req.body.loginName;
-    password = req.body.loginPassword;
-
-    if(loginName == properLoginName && password == properLoginPassword){
-        req.session.isLoggedIn = true;
-        req.session.userName = loginName;
-        res.redirect('/awaitingMachines');
-    }
-    else
-    {
-        res.redirect('/');
-    }
+    User.findOne({where: {name: loginName}})
+        .then(user => {
+            if(!user){
+                res.redirect('/');
+            }
+            bcryptjs
+            .compare(password, user.password)
+            .then(result =>{
+                if(!result){
+                    res.redirect('/');
+                }
+                req.session.isLoggedIn = true;
+                req.session.userName = loginName;
+                res.redirect('/awaitingMachines');
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        });
 }
 
 exports.getLogout = (req, res, next) => {

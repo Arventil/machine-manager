@@ -5,6 +5,7 @@ const path = require('path');
 const express = require('express');
 const bodyBarser = require('body-parser');
 const session = require('express-session');
+const bcryptjs = require('bcryptjs');
 
 //import własnych plików 
 const sequelize = require('./util/database');
@@ -57,19 +58,21 @@ app.use((req, res, next) => {
 });
 
 //setting up database (using sequelize) and starting server listening after that
-User.hasMany(Machine);
 
+// User.hasMany(Machine);
 sequelize
     // .sync({force: true})
     .sync()
     .then((result) => {
         return User.findByPk(1);
         // console.log(result);
-        
     })
     .then(user => {
         if(!user){
-            return User.create({name: 'admin', password: 'admin', role: 'adminUser'})
+            bcryptjs.hash('admin', 12)
+            .then(hashedPassword =>{
+                return User.create({name: 'admin', password: hashedPassword, role: 'adminUser'})
+            })   
         }
         // return Promise.resolve(user);
         return user;

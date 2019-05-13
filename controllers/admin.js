@@ -1,4 +1,7 @@
+const bcryptjs = require('bcryptjs');
+
 const Machine = require('../models/machine');
+const User = require('../models/user');
 
 exports.getMain = (req, res, next) => {
     Machine.findAll()
@@ -198,16 +201,36 @@ exports.getAddUser = (req, res, next) => {
 }
 
 exports.postAddUser = (req, res, next) => {
-    console.log('Dodałby się użytkownik');
 
     let userName = req.body.userName;
     let password = req.body.password;
     let confirmPassword = req.body.confirmPassword;
     let role = req.body.role;
 
-    console.log(role);
-
-    res.redirect('/admin/addUser');
+    User.findOne({where: {name: userName}})
+    .then(user => {
+        if(user){
+            return res.redirect('/admin/addUser');
+        }
+        bcryptjs.hash(password, 12)
+        .then(hashedPassword =>{
+            const newUser = new User({
+                name: userName,
+                password: hashedPassword,
+                role: role
+            });
+            return newUser.save();
+        })
+        .then(result =>{
+            res.redirect('/admin/main');
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+    })
+    .catch(err => {
+        console.log(err);
+    });
 }
 
 
