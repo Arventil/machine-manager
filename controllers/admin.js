@@ -136,19 +136,26 @@ exports.postEditMachine = (req, res, next) => {
     let updatedYHString = req.body.yearlyHand;
     let updatedYHTable = insertHandsIntoTable(updatedYHString);
 
+    console.log(updatedIfII);
+    console.log(updatedIfDH);
+    console.log(updatedIfWH);
+    console.log(updatedIfMH);
+    console.log(updatedIfQH);
+    console.log(updatedIfHYH);
+    console.log(updatedIfYH);
 
     Machine.findByPk(machineId)
         .then(machine => {
             machine.name = updatedMachineName;
-            ifInspectionInsurance= updatedIfII;
+            machine.ifInspectionInsurance= updatedIfII;
             machine.inspectionDate = updatedInspectionDate;
             machine.insuranceDate = updatedInsuranceDate;
-            ifDailyHand = updatedIfDH;
-            ifWeeklyHand = updatedIfWH;
-            ifMonthlyHand = updatedIfMH;
-            ifQuartalyHand = updatedIfQH;
-            ifHalfYearlyHand = updatedIfHYH;
-            ifYearlyHand = updatedIfYH;
+            machine.ifDailyHand = updatedIfDH;
+            machine.ifWeeklyHand = updatedIfWH;
+            machine.ifMonthlyHand = updatedIfMH;
+            machine.ifQuartalyHand = updatedIfQH;
+            machine.ifHalfYearlyHand = updatedIfHYH;
+            machine.ifYearlyHand = updatedIfYH;
             machine.dailyHand = updatedDHTable;
             machine.weeklyHand = updatedWHTable;
             machine.monthlyHand = updatedMHTable;
@@ -220,7 +227,10 @@ function retriveHandsFromTable(jHTable) {
     let hString = '';
 
     for (let a = 0; a < hTable.length; a++) {
-        hString = hString + hTable[a] + ';' + '\r' + '\n';
+        hString = hString + hTable[a];
+        if(a < hTable.length - 1){
+            hString = hString + ';' + '\r' + '\n';
+        }
     }
 
     return hString;

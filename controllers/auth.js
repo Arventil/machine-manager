@@ -1,4 +1,6 @@
 exports.getLoginPage = (req, res, next) => {
+    console.log(req.session.isLoggedIn);
+    console.log(req.session.userName);
     res.render('auth/loginPage.ejs', {
         pageTitle: 'Login',
         path: '/'
@@ -16,8 +18,8 @@ exports.postLoginPage = (req, res, next) => {
     password = req.body.loginPassword;
 
     if(loginName == properLoginName && password == properLoginPassword){
-        res.session.isLoggedIn = true;
-        res.session.userName = loginName;
+        req.session.isLoggedIn = true;
+        req.session.userName = loginName;
         res.redirect('/awaitingMachines');
     }
     else
