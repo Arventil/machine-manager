@@ -5,10 +5,25 @@
     <%- include('../../includes/adminNavigation') %>
     <main>
         <div class="form-container">
-            <form class="machine-form" action="/admin/<% if(!editing){ %>addMachine<% } else { %>editMachine<% } %>" method="POST">
+            <form class="machine-form" action="/admin/addUser" method="POST">
                 <div class="form-control">
-                    <label for="name">Nazwa maszyny</label>
-                    <input type="text" name="name" id="name" value="<% if(editing){ %><%= machine.name %><% } %>">
+                    <label for="userName">Podaj nazwę nowego użytkownika</label>
+                    <input type="text" name="userName" id="userName">
+                </div>
+                <div class="form-control">
+                    <label for="password">Utwórz hasło</label>
+                    <input type="password" name="password" id="password">
+                </div>
+                <div class="form-control">
+                    <label for="confirmPassword">Powtórz hasło</label>
+                    <input type="password" name="confirmPassword" id="confirmPassword">
+                </div>
+                <div class="form-control">
+                    <label for="role">Wybierz rolę</label>
+                    <select name="role" id="role">
+                        <option value="regularUser">Użytkownik</option>
+                        <option value="adminUser">Administrator</option>
+                    </select>
                 </div>
                 <br>
                 <button class="btn" type="submit">Dodaj użytkownika</button>

@@ -171,7 +171,7 @@ exports.postEditMachine = (req, res, next) => {
         })
         .catch(err => {
             console.log(err);
-        })
+        });
 }
 
 exports.postDeleteMachine = (req, res, next) => {
@@ -187,7 +187,27 @@ exports.postDeleteMachine = (req, res, next) => {
         })
         .catch(err => {
             console.log(err);
-        })
+        });
+}
+
+exports.getAddUser = (req, res, next) => {
+    res.render('admin/addUser', {
+        pageTitle: 'Dodaj użytkownika',
+        path: '/admin/addUser'
+    });
+}
+
+exports.postAddUser = (req, res, next) => {
+    console.log('Dodałby się użytkownik');
+
+    let userName = req.body.userName;
+    let password = req.body.password;
+    let confirmPassword = req.body.confirmPassword;
+    let role = req.body.role;
+
+    console.log(role);
+
+    res.redirect('/admin/addUser');
 }
 
 
