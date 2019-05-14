@@ -2,15 +2,15 @@ const bcryptjs = require('bcryptjs');
 
 const User = require('../models/user');
 
+//wyświetlanie strony logowania
 exports.getLoginPage = (req, res, next) => {
-    console.log(req.session.isLoggedIn);
-    console.log(req.session.userName);
     res.render('auth/loginPage.ejs', {
         pageTitle: 'Login',
         path: '/'
     })
 }
 
+//logowanie
 exports.postLoginPage = (req, res, next) => {
 
     let loginName = req.body.loginName;
@@ -40,6 +40,9 @@ exports.postLoginPage = (req, res, next) => {
         });
 }
 
+//wylogowywanie
 exports.getLogout = (req, res, next) => {
+    req.session.isLoggedIn = false;
+    req.session.userName = "";
     res.redirect('/');
 }

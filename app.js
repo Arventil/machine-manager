@@ -22,22 +22,27 @@ const Machine = require('./models/machine');
 //creating const for using express
 const app = express();
 
-// setting up template engine
+//ustawianie template engine'u
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 // setting up path for static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-//setting up usage of body-parser
+//ustawianie body-parsera
 app.use(bodyBarser.urlencoded({ extended: false }));
 
-//seting up middlewares
+//ustawianie middlewares
+// middleware do inicjalizacji sesji
 app.use(
     session({secret: 'my secret', resave: false, saveUninitialized: false})
 );
+//middleware do pobierania aktualnie zalogowanego użytkownika (przy każdym zapytaniu)
 app.use((req, res, next) =>{
-    User.findByPk(1)
+    if(!req.session.isLoggedIn){
+        return next();
+    }
+    User.findOne({where: {name: req.session.userName}})
     .then(user => {
         req.user = user;
         next();
@@ -46,6 +51,8 @@ app.use((req, res, next) =>{
 
 })
 
+
+//Główne middlewares do poruszania się po aplikacji - logika umieszczona w kontrolerach, ścieżki w plikach ścieżek
 app.use(standardRoutes);
 app.use(authRoutes);
 app.use('/admin', adminRoutes);
