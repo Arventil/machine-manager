@@ -48,7 +48,12 @@ const Machine = sequelize.define('machine', {
     quartalyHand: Sequelize.STRING,
     halfYearlyHand: Sequelize.STRING,
     yearlyHand: Sequelize.STRING,
-    handStatus: Sequelize.STRING
+    dailyStatus: Sequelize.BOOLEAN,
+    weeklyStatus: Sequelize.BOOLEAN,
+    monthlyStatus: Sequelize.BOOLEAN,
+    quartalyStatus: Sequelize.BOOLEAN,
+    halfYearlyStatus: Sequelize.BOOLEAN,
+    yearlyStatus: Sequelize.BOOLEAN,
 });
 
 module.exports = Machine;

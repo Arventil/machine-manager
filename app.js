@@ -18,6 +18,7 @@ const adminRoutes = require('./routes/admin');
 //import własnych plików z modelami
 const User = require('./models/user');
 const Machine = require('./models/machine');
+const Handling = require('./models/handling');
 
 //creating const for using express
 const app = express();
@@ -66,7 +67,9 @@ app.use((req, res, next) => {
 
 //setting up database (using sequelize) and starting server listening after that
 
-// User.hasMany(Machine);
+User.hasMany(Handling);
+Machine.hasMany(Handling);
+
 sequelize
     // .sync({force: true})
     .sync()
