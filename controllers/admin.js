@@ -56,7 +56,7 @@ exports.postAddMachine = (req, res, next) => {
         insuranceDate = null;
     }
 
-    req.user.createMachine({
+    Machine.create({
         name: machineName,
         ifInspectionInsurance: ifII,
         inspectionDate: inspectionDate,

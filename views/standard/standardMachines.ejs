@@ -70,16 +70,11 @@
                             </tr>
                         </table>
                     </div>
-
                     <div class="card__actions">
-                        <form action="/control" method="POST">
-                            <input type="hidden" name="machineId" value="<%= machine.id %>">
-                            <button class="btn" type="submit">Rejestracja obsługi</button>
-                        </form>
-                        <form action="/history" method="POST">
-                            <input type="hidden" name="machineId" value="<%= machine.id %>">
-                            <button class="btn" type="submit">Historia</button>
-                        </form>
+                        <a class="btn" href="/handlingsChoice/<%= machine.id %>">Rejestracja obsługi</a>
+                        <a class="btn" href="/history/<%= machine.ide %>">Historia</a>
+                        <a class="btn" href="/note/<%= machine.ide %>">Dodaj notatkę</a>
+                        <a class="btn" href="/note/<%= machine.ide %>">Dodaj plik</a>
                     </div>
                 </article>
             </div>

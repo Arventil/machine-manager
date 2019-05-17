@@ -11,4 +11,6 @@ router.get('/allMachines', authCheck.isAuth, standardController.getAllMachines);
 
 router.get('/ending', authCheck.isAuth, standardController.getEndingMachines);
 
+router.get('/handlingsChoice/:machineId', authCheck.isAuth, standardController.getHandlingsChoice);
+
 module.exports = router;

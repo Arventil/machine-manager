@@ -42,3 +42,10 @@ exports.getEndingMachines = (req, res, next) => {
             console.log(err);
         });
 };
+
+exports.getHandlingsChoice = (req, res, next) => {
+    res.render('standard/handlingsChoice.ejs', {
+        pageTitle: 'Wybierz obsługę do rejestracji',
+        path: '/handlingsChoice'
+    });
+};
