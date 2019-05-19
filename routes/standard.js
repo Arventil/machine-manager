@@ -14,5 +14,8 @@ router.get('/ending', authCheck.isAuth, standardController.getEndingMachines);
 router.get('/handlingsChoice/:machineId', authCheck.isAuth, standardController.getHandlingsChoice);
 
 router.get('/registerHandling/:machineId/:handlingType', authCheck.isAuth, standardController.getRegisterHandling);
+router.post('/registerHandling', authCheck.isAuth, standardController.postRegisterHandling);
+
+router.get('/history/:machineId', authCheck.isAuth, standardController.getHistory);
 
 module.exports = router;

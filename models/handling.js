@@ -12,6 +12,14 @@ const Handling = sequelize.define('handling', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    handlingTable: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    handlingResult: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     date: {
         type: Sequelize.DATEONLY,
         allowNull: false

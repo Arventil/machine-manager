@@ -1,0 +1,81 @@
+<%- include('../../includes/head') %>
+<link rel="stylesheet" href="/css/forms.css">
+</head>
+
+<body>
+    <%- include('../../includes/navigation') %>
+    <main>
+        <div class="handlingsToChoiceContainer">
+            <div class="machineTitle">
+                <%= machine.name %>
+                <br>
+                <% if(handlingType == "dailyHand"){ %>
+                <p class="handlingType">Codzienna obsługa</p>
+                <% }else if(handlingType == "weeklyHand"){ %>
+                <p class="handlingType">Tygodniowa obsługa</p>
+                <% }else if(handlingType == "monthlyHand"){ %>
+                <p class="handlingType">Miesięczna obsługa</p>
+                <% }else if(handlingType == "quartalyHand"){ %>
+                <p class="handlingType">Kwartalna obsługa</p>
+                <% }else if(handlingType == "halfYearlyHand"){ %>
+                <p class="handlingType">Półroczna obsługa</p>
+                <% }else if(handlingType == "yearlyHand"){ %>
+                <p class="handlingType">Roczna obsługa</p>
+                <% } %>
+            </div>
+            <div class="registerFormTableContainer">
+                <form action="/registerHandling" method="POST">
+                    <table class="registerFormTable">
+                        <tr>
+                            <th class="registerFormCell">
+                                Obsługa
+                            </th>
+                            <th class="registerFormCell">
+                                OK
+                            </th>
+                            <th class="registerFormCell">
+                                NOK
+                            </th>
+                        </tr>
+                        
+                        <% 
+                             <!-- +++ Pierwsza sekcja pętli - Zastępowanie znaków spacji znakami ';' w tablicy zawierającej obsługi (w celu poprawnego przekazania całości w formularzu) -->
+                            let handlingsTableToPass = '';
+                            for(let a=0; a < handlingsTable.length; a++) {
+                                for(let i = 0; i < handlingsTable[a].length; i++){
+                                    if(handlingsTable[a][i] == ' '){
+                                        handlingsTableToPass = handlingsTableToPass + ';';
+                                    }
+                                    else{
+                                        handlingsTableToPass = handlingsTableToPass + handlingsTable[a][i];
+                                    }
+                                }
+                                if(a < handlingsTable.length - 1){
+                                    handlingsTableToPass = handlingsTableToPass + ',';
+                                }
+                                <!-- +++ Koniec zastępowania znaków spacji -->
+                                <!-- Początek sekcji pętli w której tworzony jest formularz -->
+                        %>
+                            <tr class=" <% if(a == handlingsTable.length - 1){ %> end <% } %>">
+                                <td class="registerFormCell nameCell">
+                                    <%= handlingsTable[a] %>
+                                </td>
+                                <td class="registerFormCell valueCell">
+                                    <input type="radio" name="<%= a %>" value="OK">
+                                </td>
+                                <td class="registerFormCell valueCell">
+                                    <input type="radio" name="<%= a %>" value="NOK" checked>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </table>
+                    <br>
+                    <input type="hidden" name="handlingType" value=<%= handlingType %>>
+                    <input type="hidden" name="handlingsTable" value=<%= handlingsTableToPass %>>
+                    <input type="hidden" name="machineId" value=<%= machine.id %>>
+                    <button type="submit" class="btn"><b>Zarejestruj obsługę!</b></button>
+                </form>
+            </div>
+        </div>
+    </main>
+<%- include('../../includes/end') %>
