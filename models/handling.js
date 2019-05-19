@@ -23,6 +23,10 @@ const Handling = sequelize.define('handling', {
     date: {
         type: Sequelize.DATEONLY,
         allowNull: false
+    },
+    userName: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
 });
 

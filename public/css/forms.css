@@ -49,31 +49,8 @@
     display: none;
 }
 
-.registerFormTableContainer {
-    height: 700px;
-    overflow-y: auto;
-}
-
-.registerFormTable {
-    width: 100%;
-    font-size: 25px;
-    border-collapse: collapse;
-}
-
-.registerFormTable th {
-    background: #00695c;
-    color: white;
-}
-
-.end {
-    border-bottom: 1px solid #00695c;
-}
-
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-.registerFormCell {
+.customTable th,
+.customTable td {
     text-align: center;
 }
 

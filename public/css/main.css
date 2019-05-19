@@ -127,7 +127,7 @@ form {
   color: white;
 }
 
-.handlingsToChoiceContainer {
+.generalContainer {
   padding: 10px;
   width: 75%;
   margin: 0 auto;
@@ -160,4 +160,46 @@ form {
 .handlingType {
   font-size: 17px;
 }
+
+.tableContainer {
+  height: 700px;
+  overflow-y: auto;
+}
+
+.customTable {
+  width: 100%;
+  font-size: 25px;
+  border-collapse: collapse;
+}
+
+.customTable th {
+  background: #00695c;
+  color: white;
+}
+
+.end {
+  border-bottom: 1px solid #00695c;
+}
+
+.customTable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.customTable.history td {
+  font-size: 20px;
+}
+
+.historyLink {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.customTable.history tr:hover {
+  background: #00695c;
+  color: white;
+}
+
 

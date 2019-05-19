@@ -5,7 +5,7 @@
 <body>
     <%- include('../../includes/navigation') %>
     <main>
-        <div class="handlingsToChoiceContainer">
+        <div class="generalContainer">
             <div class="machineTitle">
                 <%= machine.name %>
                 <br>
@@ -23,21 +23,20 @@
                 <p class="handlingType">Roczna obsługa</p>
                 <% } %>
             </div>
-            <div class="registerFormTableContainer">
+            <div class="tableContainer">
                 <form action="/registerHandling" method="POST">
-                    <table class="registerFormTable">
+                    <table class="customTable">
                         <tr>
-                            <th class="registerFormCell">
+                            <th>
                                 Obsługa
                             </th>
-                            <th class="registerFormCell">
+                            <th>
                                 OK
                             </th>
-                            <th class="registerFormCell">
+                            <th>
                                 NOK
                             </th>
                         </tr>
-                        
                         <% 
                              <!-- +++ Pierwsza sekcja pętli - Zastępowanie znaków spacji znakami ';' w tablicy zawierającej obsługi (w celu poprawnego przekazania całości w formularzu) -->
                             let handlingsTableToPass = '';
@@ -57,13 +56,13 @@
                                 <!-- Początek sekcji pętli w której tworzony jest formularz -->
                         %>
                             <tr class=" <% if(a == handlingsTable.length - 1){ %> end <% } %>">
-                                <td class="registerFormCell nameCell">
+                                <td class="nameCell">
                                     <%= handlingsTable[a] %>
                                 </td>
-                                <td class="registerFormCell valueCell">
+                                <td class="valueCell">
                                     <input type="radio" name="<%= a %>" value="OK">
                                 </td>
-                                <td class="registerFormCell valueCell">
+                                <td class="valueCell">
                                     <input type="radio" name="<%= a %>" value="NOK" checked>
                                 </td>
                             </tr>

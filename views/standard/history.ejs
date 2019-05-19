@@ -5,5 +5,41 @@
 <body>
     <%- include('../../includes/navigation') %>
     <main>
+        <div class="generalContainer">
+            <div class="tableContainer">
+                <table class="customTable history">
+                    <tr>
+                        <th>
+                            Rodzaj obsługi
+                        </th>
+                        <th>
+                            Data rejestracji
+                        </th>
+                        <th>
+                            Zarejestrowana przez
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                    </tr>
+                    <% for(let a = 0; a < handlings.length; a++) { %>
+                        <tr class="historyRow <% if(a == handlings.length - 1){ %> end <% } %>">
+                            <td>
+                                <a href="/historyHandling/<%= handlings[a].id %>" class="historyLink"><%= handlingsTypesNames[a] %></a> 
+                            </td>
+                            <td>
+                                <a href="/historyHandling/<%= handlings[a].id %>" class="historyLink"><%= handlings[a].date %></a> 
+                            </td>
+                            <td>
+                                <a href="/historyHandling/<%= handlings[a].id %>" class="historyLink"><%= handlings[a].userName %></a> 
+                            </td>
+                            <td>
+                                <a href="/historyHandling/<%= handlings[a].id %>" class="historyLink"><%= handlingsStatuses[a] %></a> 
+                            </td>
+                        </tr>
+                    <% } %>
+                </table>
+            </div>
+        </div>
     </main>
 <%- include('../../includes/end') %>
