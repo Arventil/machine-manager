@@ -1,8 +1,33 @@
 <%- include('../../includes/head') %>
 </head>
+
 <body>
     <%- include('../../includes/navigation') %>
-    <div class="handlingsToChoiceContainer">
-        
-    </div>
-<%- include('../../includes/end') %>
+    <main>
+        <div class="handlingsToChoiceContainer">
+            <div class="machineTitle">
+                <%= machine.name %>
+            </div>
+            <div class="grid">
+                <% if(machine.ifDailyHand){ %>
+                    <a href="/registerHandling/<%= machine.id %>/dailyHand" class="handlingToChoice btn"><p>Zarejestruj codzienną obsługę techniczną</p></a>
+                <% } %>
+                <% if(machine.ifWeeklyHand){ %>
+                    <a href="/registerHandling/<%= machine.id %>/weeklyHand" class="handlingToChoice btn"><p>Zarejestruj tygodniową obsługę techniczną</p></a>
+                <% } %>
+                <% if(machine.ifMonthlyHand){ %>
+                    <a href="/registerHandling/<%= machine.id %>/monthlyHand" class="handlingToChoice btn"><p>Zarejestruj miesięczną obsługę techniczną</p></a>
+                <% } %>
+                <% if(machine.ifQuartalyHand){ %>
+                    <a href="/registerHandling/<%= machine.id %>/quartalyHand" class="handlingToChoice btn"><p>Zarejestruj kwartalną obsługę techniczną</p></a>
+                <% } %>
+                <% if(machine.ifHalfYearlyHand){ %>
+                    <a href="/registerHandling/<%= machine.id %>/halfYearlyHand" class="handlingToChoice btn"><p>Zarejestruj półroczną obsługę techniczną</p></a>
+                <% } %>
+                <% if(machine.ifYearlyHand){ %>
+                    <a href="/registerHandling/<%= machine.id %>/yearlyHand" class="handlingToChoice btn"><p>Zarejestruj roczną obsługę techniczną</p></a>
+                <% } %>
+            </div>
+        </div>
+    </main>
+    <%- include('../../includes/end') %>

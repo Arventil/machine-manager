@@ -44,8 +44,31 @@ exports.getEndingMachines = (req, res, next) => {
 };
 
 exports.getHandlingsChoice = (req, res, next) => {
-    res.render('standard/handlingsChoice.ejs', {
-        pageTitle: 'Wybierz obsługę do rejestracji',
-        path: '/handlingsChoice'
-    });
+    let machineId = req.params.machineId;
+    Machine.findByPk(machineId)
+        .then(machine =>{
+            res.render('standard/handlingsChoice.ejs', {
+                pageTitle: 'Wybierz obsługę do rejestracji',
+                path: '/handlingsChoice',
+                machine: machine
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
+exports.getRegisterHandling = (req, res, next) => {
+    let machineId = req.params.machineId;
+    Machine.findByPk(machineId)
+        .then(machine =>{
+            res.render('standard/handlingsChoice.ejs', {
+                pageTitle: 'Wybierz obsługę do rejestracji',
+                path: '/handlingsChoice',
+                machine: machine
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
 };

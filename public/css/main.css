@@ -82,7 +82,7 @@ form {
 .card-item-grid{
   display: flex;
   flex-wrap: wrap;
-  justify-content: baseline;
+  justify-content: space-between;
   align-items: stretch;
 }
 
@@ -136,13 +136,34 @@ form {
   }
 }
 
-.handlingsToChoiceContainer
-{
-    padding: 10px;
-    width: 960px;
-    height: 30px;
-    margin: 50px auto;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+.handlingsToChoiceContainer {
+  padding: 10px;
+  width: 80%;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+.machineTitle {
+  text-align: center;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.handlingToChoice {
+  width: 300px;
+  height: 150px;
+  margin: 15px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  text-align: center;
+  line-height: 130px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.handlingToChoice p {
+  line-height: 1.5;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* Seed of mobile menu */
