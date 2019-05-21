@@ -1,5 +1,10 @@
+const Sequelize = require('sequelize');
+
 const Machine = require('../models/machine');
 const Handling = require('../models/handling');
+
+const Op = Sequelize.Op;
+
 
 exports.getAllMachines = (req, res, next) => {
     Machine.findAll()
@@ -17,7 +22,29 @@ exports.getAllMachines = (req, res, next) => {
 };
 
 exports.getAwaitingMachines = (req, res, next) => {
-    Machine.findAll()
+    Machine.findAll({where:{
+        [Op.or]: [
+                {
+                    dailyStatus: 0
+                },
+                {
+                    weeklyStatus: 0
+                },
+                {
+                    monthlyStatus: 0
+                },
+                {
+                    quartalyStatus: 0
+                },
+                {
+                    halfYearlyStatus: 0
+                },
+                {
+                    yearlyStatus: 0
+                },
+            ]
+        }
+    })
         .then(machines => {
             res.render('standard/standardMachines.ejs', {
                 pageTitle: 'Oczekujące',
@@ -31,7 +58,25 @@ exports.getAwaitingMachines = (req, res, next) => {
 };
 
 exports.getEndingMachines = (req, res, next) => {
-    Machine.findAll()
+    let today = new Date();
+    let twoWeeksLater = new Date();
+    twoWeeksLater.setDate(today.getDate() + 14);
+    console.log(today);
+    console.log(twoWeeksLater);
+    Machine.findAll({where: {
+        [Op.or]: [
+            {
+                inspectionDate: {
+                    [Op.lte]: twoWeeksLater,
+                }
+            },
+            {
+                insuranceDate: {
+                    [Op.lte]: twoWeeksLater,
+                }
+            }
+        ]
+    }})
         .then(machines => {
             res.render('standard/standardMachines.ejs', {
                 pageTitle: 'Kończące się przegląd/ubezpieczenie',
@@ -196,6 +241,9 @@ exports.getHistory = (req, res, next) => {
                 handlingsStatuses.push(status);
             }
 
+            handlings.reverse();
+            handlingsTypesNames.reverse();
+            handlingsStatuses.reverse();
 
             res.render('standard/history.ejs', {
                 pageTitle: 'Historia',

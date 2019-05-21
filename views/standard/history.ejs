@@ -34,7 +34,7 @@
                                 <a href="/historyHandling/<%= machineName %>/<%= handlings[a].id %>/<%= handlings[a].userName %>" class="historyLink"><%= handlings[a].userName %></a> 
                             </td>
                             <td>
-                                <a href="/historyHandling/<%= machineName %>/<%= handlings[a].id %>/<%= handlings[a].userName %>" class="historyLink"><%= handlingsStatuses[a] %></a> 
+                                <a href="/historyHandling/<%= machineName %>/<%= handlings[a].id %>/<%= handlings[a].userName %>" class="historyLink"><span class="<%= handlingsStatuses[a] === 'OK' ? 'OK' : 'NOK' %>"><%= handlingsStatuses[a] %></span></a> 
                             </td>
                         </tr>
                     <% } %>

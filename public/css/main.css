@@ -202,4 +202,14 @@ form {
   color: white;
 }
 
+.OK {
+  color: 	#26d926;
+  font-weight: bold;
+}
+
+.NOK {
+  color: red;
+  font-weight: bold;
+}
+
 
