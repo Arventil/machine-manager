@@ -18,6 +18,6 @@ router.post('/registerHandling', authCheck.isAuth, standardController.postRegist
 
 router.get('/history/:machineId', authCheck.isAuth, standardController.getHistory);
 
-router.get('/historyHandling/:handlingId', authCheck.isAuth, standardController.getHistoryHandling);
+router.get('/historyHandling/:machineName/:handlingId/:userName', authCheck.isAuth, standardController.getHistoryHandling);
 
 module.exports = router;

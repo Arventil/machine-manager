@@ -25,16 +25,16 @@
                     <% for(let a = 0; a < handlings.length; a++) { %>
                         <tr class="historyRow <% if(a == handlings.length - 1){ %> end <% } %>">
                             <td>
-                                <a href="/historyHandling/<%= handlings[a].id %>" class="historyLink"><%= handlingsTypesNames[a] %></a> 
+                                <a href="/historyHandling/<%= machineName %>/<%= handlings[a].id %>/<%= handlings[a].userName %>" class="historyLink"><%= handlingsTypesNames[a] %></a> 
                             </td>
                             <td>
-                                <a href="/historyHandling/<%= handlings[a].id %>" class="historyLink"><%= handlings[a].date %></a> 
+                                <a href="/historyHandling/<%= machineName %>/<%= handlings[a].id %>/<%= handlings[a].userName %>" class="historyLink"><%= handlings[a].date %></a> 
                             </td>
                             <td>
-                                <a href="/historyHandling/<%= handlings[a].id %>" class="historyLink"><%= handlings[a].userName %></a> 
+                                <a href="/historyHandling/<%= machineName %>/<%= handlings[a].id %>/<%= handlings[a].userName %>" class="historyLink"><%= handlings[a].userName %></a> 
                             </td>
                             <td>
-                                <a href="/historyHandling/<%= handlings[a].id %>" class="historyLink"><%= handlingsStatuses[a] %></a> 
+                                <a href="/historyHandling/<%= machineName %>/<%= handlings[a].id %>/<%= handlings[a].userName %>" class="historyLink"><%= handlingsStatuses[a] %></a> 
                             </td>
                         </tr>
                     <% } %>

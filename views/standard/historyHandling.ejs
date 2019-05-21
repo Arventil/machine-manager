@@ -1,0 +1,57 @@
+<%- include('../../includes/head') %>
+<link rel="stylesheet" href="/css/forms.css">
+</head>
+
+<body>
+    <%- include('../../includes/navigation') %>
+    <main>
+        <div class="generalContainer">
+            <div class="machineTitle">
+                <%= machineName %>
+                <br>
+                <% if(handlingType == "dailyHand"){ %>
+                <p class="handlingType">Codzienna obsługa z dnia <%= handlingDate %></p>
+                <% }else if(handlingType == "weeklyHand"){ %>
+                <p class="handlingType">Tygodniowa obsługa z dnia <%= handlingDate %></p>
+                <% }else if(handlingType == "monthlyHand"){ %>
+                <p class="handlingType">Miesięczna obsługa z dnia <%= handlingDate %></p>
+                <% }else if(handlingType == "quartalyHand"){ %>
+                <p class="handlingType">Kwartalna obsługa z dnia <%= handlingDate %></p>
+                <% }else if(handlingType == "halfYearlyHand"){ %>
+                <p class="handlingType">Półroczna obsługa z dnia <%= handlingDate %></p>
+                <% }else if(handlingType == "yearlyHand"){ %>
+                <p class="handlingType">Roczna obsługa z dnia <%= handlingDate %></p>
+                <% } %>
+                <p class="handlingType">Wprowadzający: <%= userName %></p>
+                 
+            </div>
+            <div class="tableContainer">
+                    <table class="customTable">
+                        <tr>
+                            <th>
+                                Obsługa
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                        <% for(let a=0; a < handlingsTable.length; a++) { %>
+                            <tr class=" <% if(a == handlingsTable.length - 1){ %> end <% } %>">
+                                <td class="nameCell">
+                                    <%= handlingsTable[a] %>
+                                </td>
+                                <td class="valueCell">
+                                    <% if(handlingResult[a] == 'OK') { %>
+                                        OK
+                                    <% }else { %>
+                                        NOK
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </table>
+                    <br>
+            </div>
+        </div>
+    </main>
+<%- include('../../includes/end') %>

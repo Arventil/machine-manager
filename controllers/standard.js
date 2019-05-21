@@ -143,6 +143,15 @@ exports.postRegisterHandling = (req, res, next) => {
 
 exports.getHistory = (req, res, next) => {
     let machineId = req.params.machineId;
+    let machineName;
+
+    Machine.findByPk(machineId)
+        .then(machine => {
+            machineName = machine.name;
+        })
+        .catch(err => {
+            console.log(err);
+        });
 
     Handling.findAll({ where: { machineId: machineId } })
         .then(handlings => {
@@ -193,17 +202,42 @@ exports.getHistory = (req, res, next) => {
                 path: '/history',
                 handlings: handlings,
                 handlingsTypesNames: handlingsTypesNames,
-                handlingsStatuses: handlingsStatuses
-
+                handlingsStatuses: handlingsStatuses,
+                machineName: machineName
             });
         })
 };
 
 exports.getHistoryHandling = (req, res, next) => {
-    res.render('standard/historyHandling.ejs', {
-        pageTitle: 'Historyczna obsługa',
-        path: '/historyHandling',
-    });
+    let machineName = req.params.machineName;
+    let userName = req.params.userName;
+    let handlingId = req.params.handlingId;
+    let handlingsTable;
+    let handlingResult;
+    let handlingType;
+    let handlingDate;
+
+    Handling.findByPk(handlingId)
+        .then(handling => {
+            handlingsTable = JSON.parse(handling.handlingTable);
+            handlingResult = JSON.parse(handling.handlingResult);
+            handlingType = handling.handlingType;
+            handlingDate = handling.date;
+
+            res.render('standard/historyHandling.ejs', {
+                pageTitle: 'Historyczna obsługa',
+                path: '/historyHandling',
+                handlingType: handlingType,
+                handlingsTable: handlingsTable,
+                handlingResult: handlingResult,
+                handlingDate: handlingDate,
+                machineName: machineName,
+                userName: userName
+            });
+        })
+        .catch(err =>{
+            console.log(err);
+        })
 };
 
 
