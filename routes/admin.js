@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.get('/main', authCheck.isAuth, authCheck.isAdmin, adminController.getMain);
 
+router.get('/editII', authCheck.isAuth, authCheck.isAdmin, adminController.getEditII);
+
 router.get('/addMachine', authCheck.isAuth, authCheck.isAdmin, adminController.getAddMachine);
 router.post('/addMachine', authCheck.isAuth, authCheck.isAdmin, adminController.postAddMachine);
 

@@ -13,6 +13,8 @@ router.get('/ending', authCheck.isAuth, standardController.getEndingMachines);
 
 router.get('/handlingsChoice/:machineId', authCheck.isAuth, standardController.getHandlingsChoice);
 
+router.post('/saveNote', authCheck.isAuth, standardController.postSaveNote);
+
 router.get('/registerHandling/:machineId/:handlingType', authCheck.isAuth, standardController.getRegisterHandling);
 router.post('/registerHandling', authCheck.isAuth, standardController.postRegisterHandling);
 

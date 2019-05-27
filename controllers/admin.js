@@ -1,15 +1,57 @@
 const bcryptjs = require('bcryptjs');
+const Sequelize = require('sequelize');
 
 const Machine = require('../models/machine');
 const User = require('../models/user');
 
+const Op = Sequelize.Op;
+
 exports.getMain = (req, res, next) => {
     Machine.findAll()
-        .then(products => {
+        .then(machines => {
             res.render('admin/adminMachines.ejs', {
                 pageTitle: 'Panel Administratora',
                 path: '/admin/main',
-                machines: products
+                machines: machines
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
+exports.getAddMachine = (req, res, next) => {
+    res.render('admin/a-e-machineForm.ejs', {
+        pageTitle: 'Dodaj produkt',
+        path: '/admin/addMachine',
+        editing: false
+    })
+}
+
+exports.getEditII = (req, res, next) => {
+    let today = new Date();
+    let twoWeeksLater = new Date();
+    twoWeeksLater.setDate(today.getDate() + 14);
+    
+    Machine.findAll({where: {
+        [Op.or]: [
+            {
+                inspectionDate: {
+                    [Op.lte]: twoWeeksLater,
+                }
+            },
+            {
+                insuranceDate: {
+                    [Op.lte]: twoWeeksLater,
+                }
+            }
+        ]
+    }})
+        .then(machines => {
+            res.render('admin/adminMachines.ejs', {
+                pageTitle: 'Edytuj maszyny z kończącym się przeglądem / ubezpieczeniem',
+                path: '/admin/editII',
+                machines: machines
             });
         })
         .catch((err) => {

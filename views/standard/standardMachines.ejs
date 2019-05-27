@@ -6,6 +6,7 @@
     <%- include('../../includes/navigation.ejs') %>
     <main>
         <% if (machines.length > 0) { %>
+            <% let css3Helper = 'b'; %>
         <div class="grid">
             <% for (let machine of machines) { %>
             <div class="grid">
@@ -101,14 +102,22 @@
                     <div class="card__actions card-item-grid">
                         <a class="btn" href="/handlingsChoice/<%= machine.id %>">Rejestracja obsługi</a>
                         <a class="btn" href="/history/<%= machine.id %>">Historia</a>
-                        <a class="btn" href="/note/<%= machine.ide %>">Dodaj notatkę</a>
-                        <a class="btn" href="/note/<%= machine.ide %>">Dodaj plik</a>
+                        <button class="btn noteButton <%= machine.note ? 'noteAlert' : '' %>" id="<%= machine.id %>">Notatka</button>
+                        <a class="btn" href="/add-file/<%= machine.id %>">Dodaj plik</a>
+                    </div>
+                    <div class="note-container <%= css3Helper + machine.id %>" style="display: none;">
+                        <form action="/saveNote" method="POST">
+                            <textarea class="note" name="<%= machine.id %>" rows="5"><%= machine.note %></textarea>
+                            <input type="hidden" name="machineId" value="<%= machine.id %>">
+                            <button type="submit" class="btn2">Zapisz notatkę!</button>
+                        </form>
                     </div>
                 </article>
             </div>
             <% } %>
         <% } else { %>
-            <h1>No Products Found!</h1>
+            <h1>Nie znaleziono maszyn spełniających podane kryteria.</h1>
         <% } %>
     </main>
+    <script src="/js/sHNote.js"></script>
     <%- include('../../includes/end.ejs') %>

@@ -54,6 +54,7 @@ const Machine = sequelize.define('machine', {
     quartalyStatus: Sequelize.BOOLEAN,
     halfYearlyStatus: Sequelize.BOOLEAN,
     yearlyStatus: Sequelize.BOOLEAN,
+    note: Sequelize.STRING(10000)
 });
 
 module.exports = Machine;

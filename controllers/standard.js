@@ -94,6 +94,21 @@ exports.getEndingMachines = (req, res, next) => {
         });
 };
 
+exports.postSaveNote = (req, res, next) => {
+    let machineId = req.body.machineId;
+    let note = req.body[machineId];
+    Machine.findByPk(machineId)
+        .then(machine => {
+            machine.note = note;
+            machine.save();
+
+            res.redirect('/awaitingMachines');
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
 exports.getHandlingsChoice = (req, res, next) => {
     let machineId = req.params.machineId;
     Machine.findByPk(machineId)
