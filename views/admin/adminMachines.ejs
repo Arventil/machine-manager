@@ -13,41 +13,68 @@
                         <header class="card__header">
                             <h1 class="machine_name"><%= machine.name %></h1>
                         </header>
-
                         <div>
                             <table style="margin: 10px auto;">
+                                <% if(machine.ifDailyHand){ %>
                                 <tr>
                                     <td class="machine_param">
                                         Obsługa codzienna:
                                     </td>
-                                    <td class="machine_param red">
-                                        Oczekuje
+                                    <td class="machine_param <%= machine.dailyStatus == 1 ? 'green' : 'red' %>">
+                                        <%= machine.dailyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
                                     </td>
                                 </tr>
+                                <% } %>
+                                <% if(machine.ifWeeklyHand){ %>
                                 <tr>
                                     <td class="machine_param">
                                         Obsługa tygodniowa:
                                     </td>
-                                    <td class="machine_param green">
-                                        Wykonana
+                                    <td class="machine_param <%= machine.weeklyStatus == 1 ? 'green' : 'red' %>">
+                                        <%= machine.weeklyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
                                     </td>
                                 </tr>
+                                <% } %>
+                                <% if(machine.ifMonthlyHand){ %>
+                                    <tr>
+                                        <td class="machine_param">
+                                            Obsługa miesięczna:
+                                        </td>
+                                        <td class="machine_param <%= machine.monthlyStatus == 1 ? 'green' : 'red' %>">
+                                            <%= machine.monthlyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                                <% if(machine.ifQuartalyHand){ %>
                                 <tr>
                                     <td class="machine_param">
                                         Obsługa kwartalna:
                                     </td>
-                                    <td class="machine_param green">
-                                        Wykonana
+                                    <td class="machine_param <%= machine.quartalyStatus == 1 ? 'green' : 'red' %>">
+                                        <%= machine.quartalyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
                                     </td>
                                 </tr>
+                                <% } %>
+                                <% if(machine.ifHalfYearlyHand){ %>
+                                    <tr>
+                                        <td class="machine_param">
+                                            Obsługa półroczna:
+                                        </td>
+                                        <td class="machine_param <%= machine.halfYearlyStatus == 1 ? 'green' : 'red' %>">
+                                            <%= machine.halfYearlyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                                <% if(machine.ifYearlyHand){ %>
                                 <tr>
                                     <td class="machine_param">
                                         Obsługa roczna:
                                     </td>
-                                    <td class="machine_param green">
-                                        Wykonana
+                                    <td class="machine_param <%= machine.yearlyStatus == 1 ? 'green' : 'red' %>">
+                                        <%= machine.yearlyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
                                     </td>
                                 </tr>
+                                <% } %>
                                 <tr>
                                     <td class="machine_param">
                                         <br>
@@ -71,7 +98,6 @@
                                 </tr>
                             </table>
                         </div>
-
                         <div class="card__actions">
                             <a class="btn" href="/admin/editMachine/<%= machine.id %>?edit=true">Edytuj</a>
                             <form action="/admin/deleteMachine" method="POST">

@@ -73,7 +73,12 @@ exports.postAddMachine = (req, res, next) => {
         quartalyHand: qHTable,
         halfYearlyHand: hYHTable,
         yearlyHand: yHTable,
-        handStatus: ''
+        dailyStatus: 0,
+        weeklyStatus: 0,
+        monthlyStatus: 0,
+        quartalyStatus: 0,
+        halfYearlyStatus: 0,
+        yearlyStatus: 0
     })
         .then((result) => {
             console.log('Maszyna dodana!');

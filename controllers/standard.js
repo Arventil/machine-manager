@@ -18,28 +18,33 @@ exports.getAllMachines = (req, res, next) => {
         .catch((err) => {
             console.log(err);
         });
-
 };
 
 exports.getAwaitingMachines = (req, res, next) => {
     Machine.findAll({where:{
         [Op.or]: [
                 {
-                    dailyStatus: 0
+                    ifDailyHand: 1,
+                    dailyStatus: 0,
                 },
                 {
+                    ifWeeklyHand: 1,
                     weeklyStatus: 0
                 },
                 {
+                    ifMonthlyHand: 1,
                     monthlyStatus: 0
                 },
                 {
+                    ifQuartalyHand: 1,
                     quartalyStatus: 0
                 },
                 {
+                    ifHalfYearlyHand: 1,
                     halfYearlyStatus: 0
                 },
                 {
+                    ifYearlyHand: 1,
                     yearlyStatus: 0
                 },
             ]
@@ -148,6 +153,9 @@ exports.postRegisterHandling = (req, res, next) => {
     let changedHandlingsTableString = '';
     let handlingsTable;
     let handlingResult = [];
+    let concreteMachine;
+
+    
 
     // Zastępowanie znaków ';' w tablicy handlingsTable znakami ' '
     for (let a = 0; a < orginalHandlingsTableString.length; a++) {
@@ -168,17 +176,49 @@ exports.postRegisterHandling = (req, res, next) => {
 
     console.log(handlingsTable);
     console.log(handlingResult);
-    Handling.create({
-        handlingType: req.body.handlingType,
-        handlingTable: JSON.stringify(handlingsTable),
-        handlingResult: JSON.stringify(handlingResult),
-        date: new Date(),
-        userName: req.user.name,
-        userId: req.user.id,
-        machineId: req.body.machineId
-    })
-        .then(() => {
-            res.redirect('/awaitingMachines');
+
+    Machine.findByPk(req.body.machineId)
+        .then(machine =>{
+            concreteMachine = machine;
+        })
+        .then(()=>{
+            Handling.create({
+                handlingType: req.body.handlingType,
+                handlingTable: JSON.stringify(handlingsTable),
+                handlingResult: JSON.stringify(handlingResult),
+                date: new Date(),
+                userName: req.user.name,
+                userId: req.user.id,
+                machineId: req.body.machineId
+            })
+                .then(() => {
+                    console.log('heh')
+                    switch(req.body.handlingType){
+                        case 'dailyHand':
+                            concreteMachine.dailyStatus = 1;
+                            break;
+                        case 'weeklyHand':
+                            concreteMachine.weeklyStatus = 1;
+                            break;
+                        case 'monthlyHand':
+                            concreteMachine.monthlyStatus = 1;
+                            break;
+                        case 'quartalyHand':
+                            concreteMachine.quartalyStatus = 1;
+                            break;
+                        case 'halfYearlyHand':
+                            concreteMachine.halfYearlyStatus = 1;
+                            break;
+                        case 'yearlyHand':
+                            concreteMachine.yearlyStatus = 1;
+                            break;
+                    }
+                    concreteMachine.save();
+                    res.redirect('/awaitingMachines');
+                })
+                .catch(err =>{
+                    console.log(err);
+                })
         })
         .catch(err => {
             console.log(err);
