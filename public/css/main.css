@@ -216,6 +216,14 @@ form {
   color: white;
 }
 
+.noteButton {
+  width: 60%;
+}
+
+.fileButton {
+  width: 32%;
+}
+
 .note-container {
   border-top: 1px solid black;
   padding: 10px 0;
@@ -238,6 +246,30 @@ form {
 .NOK {
   color: red;
   font-weight: bold;
+}
+
+div.addFile {
+  text-align: center;
+}
+
+.filesPageContainer {
+  text-align: center;
+}
+
+.filesPageBlockContainer
+{
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  overflow: auto;
+  max-height: 800px;
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px 0;
+  margin-bottom: 20px;
+}
+
+.blockTitle {
+  font-weight: bold;
+  font-size: 20px;
 }
 
 

@@ -7,113 +7,125 @@
     <main>
         <% if (machines.length > 0) { %>
             <% let css3Helper = 'b'; %>
+            <% 
+                let today = new Date();
+                let twoWeeksLater = new Date();
+                twoWeeksLater.setDate(today.getDate() + 14);
+                
+            %>
         <div class="grid">
             <% for (let machine of machines) { %>
-            <div class="grid">
-                <article class="card machine_item">
-                    <header class="card__header">
-                        <h1 class="machine_name"><%= machine.name %></h1>
-                    </header>
-                    <div>
-                        <table style="margin: 10px auto;">
-                            <% if(machine.ifDailyHand){ %>
-                            <tr>
-                                <td class="machine_param">
-                                    Obsługa codzienna:
-                                </td>
-                                <td class="machine_param <%= machine.dailyStatus == 1 ? 'green' : 'red' %>">
-                                    <%= machine.dailyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
-                                </td>
-                            </tr>
-                            <% } %>
-                            <% if(machine.ifWeeklyHand){ %>
-                            <tr>
-                                <td class="machine_param">
-                                    Obsługa tygodniowa:
-                                </td>
-                                <td class="machine_param <%= machine.weeklyStatus == 1 ? 'green' : 'red' %>">
-                                    <%= machine.weeklyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
-                                </td>
-                            </tr>
-                            <% } %>
-                            <% if(machine.ifMonthlyHand){ %>
+                <% 
+                    let machineInsuranceDate = new Date(machine.insuranceDate);
+                    let machineInspectionDate = new Date(machine.inspectionDate);
+                %>
+                <div class="grid">
+                    <article class="card machine_item">
+                        <header class="card__header">
+                            <h1 class="machine_name"><%= machine.name %></h1>
+                        </header>
+                        <div>
+                            <table style="margin: 10px auto;">
+                                <% if(machine.ifDailyHand){ %>
                                 <tr>
                                     <td class="machine_param">
-                                        Obsługa miesięczna:
+                                        Obsługa codzienna:
                                     </td>
-                                    <td class="machine_param <%= machine.monthlyStatus == 1 ? 'green' : 'red' %>">
-                                        <%= machine.monthlyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
+                                    <td class="machine_param <%= machine.dailyStatus == 1 ? 'green' : 'red' %>">
+                                        <%= machine.dailyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
                                     </td>
                                 </tr>
-                            <% } %>
-                            <% if(machine.ifQuartalyHand){ %>
-                            <tr>
-                                <td class="machine_param">
-                                    Obsługa kwartalna:
-                                </td>
-                                <td class="machine_param <%= machine.quartalyStatus == 1 ? 'green' : 'red' %>">
-                                    <%= machine.quartalyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
-                                </td>
-                            </tr>
-                            <% } %>
-                            <% if(machine.ifHalfYearlyHand){ %>
+                                <% } %>
+                                <% if(machine.ifWeeklyHand){ %>
                                 <tr>
                                     <td class="machine_param">
-                                        Obsługa półroczna:
+                                        Obsługa tygodniowa:
                                     </td>
-                                    <td class="machine_param <%= machine.halfYearlyStatus == 1 ? 'green' : 'red' %>">
-                                        <%= machine.halfYearlyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
+                                    <td class="machine_param <%= machine.weeklyStatus == 1 ? 'green' : 'red' %>">
+                                        <%= machine.weeklyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
                                     </td>
                                 </tr>
-                            <% } %>
-                            <% if(machine.ifYearlyHand){ %>
-                            <tr>
-                                <td class="machine_param">
-                                    Obsługa roczna:
-                                </td>
-                                <td class="machine_param <%= machine.yearlyStatus == 1 ? 'green' : 'red' %>">
-                                    <%= machine.yearlyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
-                                </td>
-                            </tr>
-                            <% } %>
-                            <tr>
-                                <td class="machine_param">
-                                    <br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="machine_param">
-                                    Ważność przeglądu:
-                                </td>
-                                <td class="machine_param">
-                                    <%= machine.inspectionDate %>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="machine_param">
-                                    Ważność ubezpieczenia:
-                                </td>
-                                <td class="machine_param">
-                                    <%= machine.insuranceDate %>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="card__actions card-item-grid">
-                        <a class="btn" href="/handlingsChoice/<%= machine.id %>">Rejestracja obsługi</a>
-                        <a class="btn" href="/history/<%= machine.id %>">Historia</a>
-                        <button class="btn noteButton <%= machine.note ? 'noteAlert' : '' %>" id="<%= machine.id %>">Notatka</button>
-                        <a class="btn" href="/add-file/<%= machine.id %>">Dodaj plik</a>
-                    </div>
-                    <div class="note-container <%= css3Helper + machine.id %>" style="display: none;">
-                        <form action="/saveNote" method="POST">
-                            <textarea class="note" name="<%= machine.id %>" rows="5"><%= machine.note %></textarea>
-                            <input type="hidden" name="machineId" value="<%= machine.id %>">
-                            <button type="submit" class="btn2">Zapisz notatkę!</button>
-                        </form>
-                    </div>
-                </article>
-            </div>
+                                <% } %>
+                                <% if(machine.ifMonthlyHand){ %>
+                                    <tr>
+                                        <td class="machine_param">
+                                            Obsługa miesięczna:
+                                        </td>
+                                        <td class="machine_param <%= machine.monthlyStatus == 1 ? 'green' : 'red' %>">
+                                            <%= machine.monthlyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                                <% if(machine.ifQuartalyHand){ %>
+                                <tr>
+                                    <td class="machine_param">
+                                        Obsługa kwartalna:
+                                    </td>
+                                    <td class="machine_param <%= machine.quartalyStatus == 1 ? 'green' : 'red' %>">
+                                        <%= machine.quartalyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                <% if(machine.ifHalfYearlyHand){ %>
+                                    <tr>
+                                        <td class="machine_param">
+                                            Obsługa półroczna:
+                                        </td>
+                                        <td class="machine_param <%= machine.halfYearlyStatus == 1 ? 'green' : 'red' %>">
+                                            <%= machine.halfYearlyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                                <% if(machine.ifYearlyHand){ %>
+                                <tr>
+                                    <td class="machine_param">
+                                        Obsługa roczna:
+                                    </td>
+                                    <td class="machine_param <%= machine.yearlyStatus == 1 ? 'green' : 'red' %>">
+                                        <%= machine.yearlyStatus == 1 ? 'Wykonana' : 'Oczekuje' %>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                <tr>
+                                    <td class="machine_param">
+                                        <br>
+                                    </td>
+                                </tr>
+                                <% if(machine.ifInspectionInsurance) { %>
+                                <tr>
+                                    <td class="machine_param">
+                                        Ważność przeglądu:
+                                    </td>
+                                    <td class="machine_param <%= machineInspectionDate <= twoWeeksLater ? 'red' : 'green' %>">
+                                        <%= machine.inspectionDate %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="machine_param">
+                                        Ważność ubezpieczenia:
+                                    </td>
+                                    <td class="machine_param <%= machineInsuranceDate <= twoWeeksLater ? 'red' : 'green' %>">
+                                        <%= machine.insuranceDate %>
+                                    </td>
+                                </tr>
+                                <% } %>
+                            </table>
+                        </div>
+                        <div class="card__actions card-item-grid">
+                            <a class="btn" href="/handlingsChoice/<%= machine.id %>">Rejestracja obsługi</a>
+                            <a class="btn" href="/history/<%= machine.id %>">Historia</a>
+                            <button class="btn noteButton <%= machine.note ? 'noteAlert' : '' %>" id="<%= machine.id %>">Notatka</button>
+                            <a class="btn fileButton" href="/files/<%= machine.id %>">Pliki</a>
+                        </div>
+                        <div class="note-container <%= css3Helper + machine.id %>" style="display: none;">
+                            <form action="/saveNote" method="POST">
+                                <textarea class="note" name="<%= machine.id %>" rows="5"><%= machine.note %></textarea>
+                                <input type="hidden" name="machineId" value="<%= machine.id %>">
+                                <button type="submit" class="btn2">Zapisz notatkę!</button>
+                            </form>
+                        </div>
+                    </article>
+                </div>
             <% } %>
         <% } else { %>
             <h1>Nie znaleziono maszyn spełniających podane kryteria.</h1>

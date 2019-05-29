@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 const Sequelize = require('sequelize');
 
 const Machine = require('../models/machine');
@@ -66,8 +69,6 @@ exports.getEndingMachines = (req, res, next) => {
     let today = new Date();
     let twoWeeksLater = new Date();
     twoWeeksLater.setDate(today.getDate() + 14);
-    console.log(today);
-    console.log(twoWeeksLater);
     Machine.findAll({where: {
         [Op.or]: [
             {
@@ -342,6 +343,68 @@ exports.getHistoryHandling = (req, res, next) => {
             console.log(err);
         })
 };
+
+exports.getFiles = (req, res, next) => {
+    let machineId = req.params.machineId;
+
+    const directoryPath = path.join('files/', machineId);
+
+    let files = [];
+
+    if(fs.existsSync(directoryPath)){
+        files = fs.readdirSync(directoryPath, (err, files) => {
+            if(err) {
+                return console.log(err);
+            }
+            return files;
+        });
+    }
+
+    Machine.findByPk(machineId)
+        .then(machine => {
+            res.render('standard/files.ejs', {
+                pageTitle: 'Pliki',
+                path: '/files',
+                machine: machine,
+                files: files
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
+exports.postFiles = (req, res, next) => {
+    let machineId = req.params.machineId;
+    let file = req.file;
+    console.log(file);
+    Machine.findByPk(machineId)
+    .then(machine => {
+        res.redirect('/files/' + machineId);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+};
+
+exports.getDownloadFile = (req, res, next) => {
+    const machineId = req.params.machineId;
+    const nameOfFile = req.params.nameOfFile;
+
+    console.log(machineId);
+
+    const filePath = path.join('./files/', machineId, '/', nameOfFile);
+
+    console.log(filePath);
+
+    fs.readFile(filePath, (err, data) => {
+        if(err) {
+            return next(err);
+        }
+        res.send(data);
+    });
+};
+
 
 
 

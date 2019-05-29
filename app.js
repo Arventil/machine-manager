@@ -1,11 +1,13 @@
 //import wbudowanych paczek
 const path = require('path');
+const fs = require('fs');
 
 //import doinstalowanych paczek
 const express = require('express');
 const bodyBarser = require('body-parser');
 const session = require('express-session');
 const bcryptjs = require('bcryptjs');
+const multer = require('multer');
 
 //import własnych plików 
 const sequelize = require('./util/database');
@@ -23,6 +25,43 @@ const Handling = require('./models/handling');
 //creating const for using express
 const app = express();
 
+//tworzenie logiki dla umieszczania i nazywania plików
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        let dir = './files/' + req.body.machineId;
+
+        if(!fs.existsSync(dir)){
+            fs.mkdirSync(dir);
+        }
+
+        cb(null, 'files/' + req.body.machineId);
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+});
+
+
+const fileFilter = (req, file, cb) => {
+    if(
+        file.mimetype === 'text/plain' ||
+        file.mimetype === 'application/pdf' ||
+        file.mimetype === 'application/msword' ||
+        file.mimetype === 'application/vnd.ms-excel' ||
+        file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+        file.mimetype === 'image/jpeg' ||
+        file.mimetype === 'image/bmp' ||
+        file.mimetype === 'image/gif' ||
+        file.mimetype === 'image/vnd.microsoft.ico' ||
+        file.mimetype === 'image/png' ||
+        file.mimetype === 'image/tiff'
+    ) {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
 //ustawianie template engine'u
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -32,6 +71,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //ustawianie body-parsera
 app.use(bodyBarser.urlencoded({ extended: false }));
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('file'));
 
 //ustawianie middlewares
 // middleware do inicjalizacji sesji
