@@ -12,6 +12,9 @@ const Op = Sequelize.Op;
 exports.getAllMachines = (req, res, next) => {
     Machine.findAll()
         .then(machines => {
+
+            checkingHandlingStatus(machines);
+
             res.render('standard/standardMachines.ejs', {
                 pageTitle: 'Wszystkie',
                 path: '/allMachines',
@@ -54,6 +57,9 @@ exports.getAwaitingMachines = (req, res, next) => {
         }
     })
         .then(machines => {
+
+            checkingHandlingStatus(machines);
+            
             res.render('standard/standardMachines.ejs', {
                 pageTitle: 'Oczekujące',
                 path: '/awaitingMachines',
@@ -84,6 +90,9 @@ exports.getEndingMachines = (req, res, next) => {
         ]
     }})
         .then(machines => {
+
+            checkingHandlingStatus(machines);
+
             res.render('standard/standardMachines.ejs', {
                 pageTitle: 'Kończące się przegląd/ubezpieczenie',
                 path: '/ending',
@@ -208,7 +217,6 @@ exports.postRegisterHandling = (req, res, next) => {
                 machineId: req.body.machineId
             })
                 .then(() => {
-                    console.log('heh')
                     switch(req.body.handlingType){
                         case 'dailyHand':
                             concreteMachine.dailyStatus = 1;
@@ -404,6 +412,121 @@ exports.getDownloadFile = (req, res, next) => {
         res.send(data);
     });
 };
+
+// funckja do sprawdzania statusu obsług
+function checkingHandlingStatus(machineTable){
+
+    let now = new Date();
+    
+    // obliczanie statusów dla każdej z obsług dla każdej z maszyn w tablicy (na podstawie różnicy milisekund)
+    for(let a = 0; a < machineTable.length; a++){
+        gettingLastHandling(machineTable[a].id, 'dailyHand')
+        .then(result =>{
+            if(result != null){
+                if(((result.createdAt.getHours() < 7 || result.createdAt.getHours() >= 19) && (now.getHours() >= 7 && now.getHours() < 19)) 
+                    || ((result.createdAt.getHours() >= 7 && result.createdAt.getHours() < 19) && (now.getHours() < 7 || now.getHours() >= 19))
+                    || now - new Date(result.createdAt) > 43200000){
+                    machineTable[a].dailyStatus = 0;
+                    machineTable[a].save();
+                }
+            }   
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+
+        gettingLastHandling(machineTable[a].id, 'weeklyHand')
+        .then(result =>{
+            if(result != null){
+                if(now - new Date(result.date) >= 604800000){
+                    machineTable[a].weeklyStatus = 0;
+                    machineTable[a].save();
+                }
+            }   
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+
+        gettingLastHandling(machineTable[a].id, 'monthlyHand')
+        .then(result =>{
+            if(result != null){
+                if(now - new Date(result.date) >= 2592000000 ){
+                    machineTable[a].monthlyStatus = 0;
+                    machineTable[a].save();
+                }
+            }   
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+
+        gettingLastHandling(machineTable[a].id, 'quartalyHand')
+        .then(result =>{
+            if(result != null){
+                if(now - new Date(result.date) >= 7889238000 ){
+                    machineTable[a].quartalyStatus = 0;
+                    machineTable[a].save();
+                }
+            }   
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+
+        gettingLastHandling(machineTable[a].id, 'halfYearlyHand')
+        .then(result =>{
+            if(result != null){
+                if(now - new Date(result.date) >= 15778476000 ){
+                    machineTable[a].halfYearlyStatus = 0;
+                    machineTable[a].save();
+                }
+            }   
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+
+        gettingLastHandling(machineTable[a].id, 'yearlyHand')
+        .then(result =>{
+            if(result != null){
+                if(now - new Date(result.date) >= 31556952000 ){
+                    machineTable[a].yearlyStatus = 0;
+                    machineTable[a].save();
+                }
+            }   
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+    }   
+}
+
+
+//funckja do pobierania ostatniej obsługi danego typu dla danej maszyny
+const gettingLastHandling = (machineId, handlingType) =>{
+    const result = Handling.findAll({
+        limit: 1,
+        where: {
+            machineId: machineId,
+            handlingType: handlingType
+        },
+        order: [['createdAt', 'DESC']]
+    })
+    .then(handlings => {
+        if(handlings.length == 0){
+            return null;
+        }
+        else {
+            return handlings[0];
+        }  
+    })
+    .catch(err => {
+        console.log(err);
+    })
+
+    return result;
+}
 
 
 
