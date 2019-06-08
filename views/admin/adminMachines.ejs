@@ -90,6 +90,7 @@
                                     <br>
                                 </td>
                             </tr>
+                            <% if(machine.ifInspectionInsurance) { %>
                             <tr>
                                 <td class="machine_param">
                                     Ważność przeglądu:
@@ -108,13 +109,28 @@
                                     <%= machine.insuranceDate %>
                                 </td>
                             </tr>
+                            <% } %>
                         </table>
                     </div>
                     <div class="card__actions">
                         <a class="btn" href="/admin/editMachine/<%= machine.id %>?edit=true">Edytuj</a>
                         <form action="/admin/deleteMachine" method="POST">
                             <input type="hidden" name="machineId" value="<%= machine.id %>">
-                            <button class="btn" type="submit" id="delete">Usuń</button>
+                            <a class="btn delete" id="<%= 'b' + machine.id %>">Usuń</a>
+
+                            <div class="deleteMessege" id="<%= 'd' + machine.id %>">
+                                <span>
+                                    Wybrałeś opcję usnięcia maszyny:<br>
+                                    <b><%= machine.name %></b><br><br>
+                                    Operacja ta usunie z pamięci wszelkie dane dot. tej maszyny (przeglądy, dane obsługi, itd.).<br>
+                                    Operacja ta nie może być cofnięta.<br>
+                                    Jeśli chcesz kontynuować usuwanie maszyny naciśnij przycisk "Ok".<br>
+                                    W przeciwnym razie naciśnij przycisk "Anuluj".
+                                </span>
+                                <br><br><br>
+                                <button class="btn" type="submit" style="margin-right: 30px;">Ok</button>
+                                <a class="btn cancel" id="<%= 'a' + machine.id %>">Anuluj</a>
+                            </div>                            
                         </form>
                     </div>
                 </article>
@@ -124,5 +140,5 @@
             <h1>Nie znaleziono maszyn spełniających podane kryteria.</h1>
             <% } %>
     </main>
-    <script src="/js/updateMachineForm.js"></script>
+    <script src="/js/show_hideDeleteMachineForm.js"></script>
     <%- include('../../includes/end.ejs') %>

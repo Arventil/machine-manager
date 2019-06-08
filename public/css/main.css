@@ -203,6 +203,11 @@ form {
   font-size: 20px;
 }
 
+.customTable.users td {
+  font-size: 20px;
+}
+
+
 .historyLink {
   display: block;
   width: 100%;
@@ -256,8 +261,7 @@ div.addFile {
   text-align: center;
 }
 
-.filesPageBlockContainer
-{
+.filesPageBlockContainer{
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   overflow: auto;
   max-height: 800px;
@@ -270,6 +274,23 @@ div.addFile {
 .blockTitle {
   font-weight: bold;
   font-size: 20px;
+}
+
+.deleteMessege{
+  background: white;
+  position: absolute;
+  left: 50%;
+  top: 28%;
+  border: 1px solid red;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  width: 80%;
+  margin: 0 auto;
+  padding: 50px 0;
+  margin-bottom: 20px;
+  z-index: 2;
+  font-size: 18px;
+  display: none;
 }
 
 

@@ -1,0 +1,60 @@
+<%- include('../../includes/head') %>
+<link rel="stylesheet" href="/css/forms.css">
+</head>
+
+<body>
+    <%- include('../../includes/adminNavigation') %>
+    <main>
+        <div class="generalContainer">
+            <div class="tableContainer">
+                <table class="customTable users">
+                    <tr>
+                        <th>
+                            Nazwa użytkownika
+                        </th>
+                        <th>
+                            Data założenia
+                        </th>
+                        <th>
+                            Edytuj
+                        </th>
+                        <th>
+                            Usuń
+                        </th>
+                    </tr>
+                    <% for(let a = 0; a < users.length; a++) { %>
+                        <% 
+                            let date = new Date(users[a].createdAt);
+                            let monthHelper = '';
+                            let dayHelper = '';
+                            if(date.getMonth() < 10){
+                                monthHelper = '0';
+                            }
+                            if(date.getDate() < 10){
+                                dayHelper = '0';
+                            }  
+                        %>
+                        <tr class="<% if(a == users.length - 1){ %> end <% } %>">
+                            <td>
+                                 <%= users[a].name %>
+                            </td>
+                            <td>
+                                <%= dayHelper + date.getDate() + '.' + monthHelper + date.getMonth() + '.' + date.getFullYear() %>
+                            </td>
+                            <td>
+                                <a class="btn" href="/admin/editUser/<%= users[a].id %>?edit=true">Edytuj</a>
+                            </td>
+                            <td>
+                                <a class="btn" href="/admin/deleteUser/<%= users[a].id %>">Usuń</a>
+                            </td>
+                        </tr>
+                    <% } %>
+                </table>
+            </div>
+            <br>
+            <div style="text-align: center; margin-bottom: 5px;">
+                <a class="btn" href="/admin/addUser">Dodaj użytkownika</a>
+            </div>
+        </div>
+    </main>
+<%- include('../../includes/end') %>

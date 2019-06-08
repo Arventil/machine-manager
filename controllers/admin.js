@@ -241,9 +241,10 @@ exports.postDeleteMachine = (req, res, next) => {
 }
 
 exports.getAddUser = (req, res, next) => {
-    res.render('admin/addUser', {
+    res.render('admin/a-e-UserForm', {
         pageTitle: 'Dodaj użytkownika',
-        path: '/admin/addUser'
+        path: '/admin/addUser',
+        editing: false
     });
 }
 
@@ -251,7 +252,6 @@ exports.postAddUser = (req, res, next) => {
 
     let userName = req.body.userName;
     let password = req.body.password;
-    let confirmPassword = req.body.confirmPassword;
     let role = req.body.role;
 
     User.findOne({where: {name: userName}})
@@ -269,7 +269,7 @@ exports.postAddUser = (req, res, next) => {
             return newUser.save();
         })
         .then(result =>{
-            res.redirect('/admin/main');
+            res.redirect('/admin/userList');
         })
         .catch(err =>{
             console.log(err);
@@ -278,6 +278,81 @@ exports.postAddUser = (req, res, next) => {
     .catch(err => {
         console.log(err);
     });
+}
+
+exports.getUserList = (req, res, next) => {
+    User.findAll()
+    .then(users =>{
+        res.render('admin/userList', {
+            pageTitle: 'Lista użytkowników',
+            path: '/admin/userList',
+            users: users
+        })
+    })
+}
+
+exports.getEditUser = (req, res, next) => {
+    let userId = req.params.userId;
+    const editMode = req.query.edit;
+
+    User.findByPk(userId)
+    .then(user => {
+        res.render('admin/a-e-UserForm', {
+            pageTitle: 'Edytuj użytkownika',
+            path: '/admin/editUser',
+            user: user,
+            editing: editMode
+        })
+    })
+}
+
+exports.postEditUser = (req, res, next) => {
+
+    let userName = req.body.userName;
+    let password = req.body.password;
+    let role = req.body.role;
+
+    User.findOne({where: {name: userName}})
+    .then(user => {
+        user.name = userName;
+        user.role = role;
+        if(password != ''){
+            bcryptjs.hash(password, 12)
+            .then(hashedPassword =>{
+                user.password = hashedPassword;
+                return user.save();
+            })
+            .then(result =>{
+                res.redirect('/admin/userList');
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
+        else{
+            user.save();
+            res.redirect('/admin/userList');
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
+exports.getDeleteUser = (req, res, next) => {
+    let userId = req.params.userId;
+
+    User.findByPk(userId)
+        .then(user => {
+            return user.destroy();
+        })
+        .then(() => {
+            console.log('Użytkownik usunięty!');
+            res.redirect('/admin/userList');
+        })
+        .catch(err => {
+            console.log(err);
+        });
 }
 
 

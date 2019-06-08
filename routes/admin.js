@@ -20,4 +20,11 @@ router.post('/deleteMachine', authCheck.isAuth, authCheck.isAdmin, adminControll
 router.get('/addUser', authCheck.isAuth, authCheck.isAdmin, adminController.getAddUser);
 router.post('/addUser', authCheck.isAuth, authCheck.isAdmin, adminController.postAddUser);
 
+router.get('/userList', authCheck.isAuth, authCheck.isAdmin, adminController.getUserList);
+
+router.get('/editUser/:userId', authCheck.isAuth, authCheck.isAdmin, adminController.getEditUser);
+router.post('/editUser', authCheck.isAuth, authCheck.isAdmin, adminController.postEditUser);
+
+router.get('/deleteUser/:userId', authCheck.isAuth, authCheck.isAdmin, adminController.getDeleteUser);
+
 module.exports = router;
