@@ -67,7 +67,7 @@ exports.getAddMachine = (req, res, next) => {
     })
 }
 
-// Dane pobrane z formularza dodawania produktu są wrzucane do bazy danych - następuje odpowiednie formatowanie definicji obsług, w celu przechowania ich w bazie i dalszego na nich działania
+// Dane pobrane z formularza dodawania maszyny są wrzucane do bazy danych - następuje odpowiednie formatowanie definicji obsług, w celu przechowania ich w bazie i dalszego na nich działania
 exports.postAddMachine = (req, res, next) => {
     let machineName = req.body.name;
     let ifII = checkForHands(req.body.ifII);
