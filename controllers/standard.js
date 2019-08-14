@@ -438,7 +438,7 @@ function checkingHandlingStatus(machineTable){
         gettingLastHandling(machineTable[a].id, 'weeklyHand')
         .then(result =>{
             if(result != null){
-                if(now - new Date(result.date) >= 604800000){
+                if(now - new Date(result.createdAt) >= 604800000){
                     machineTable[a].weeklyStatus = 0;
                     machineTable[a].save();
                 }
@@ -451,7 +451,7 @@ function checkingHandlingStatus(machineTable){
         gettingLastHandling(machineTable[a].id, 'monthlyHand')
         .then(result =>{
             if(result != null){
-                if(now - new Date(result.date) >= 2592000000 ){
+                if(now - new Date(result.createdAt) >= 2592000000 ){
                     machineTable[a].monthlyStatus = 0;
                     machineTable[a].save();
                 }
@@ -464,7 +464,7 @@ function checkingHandlingStatus(machineTable){
         gettingLastHandling(machineTable[a].id, 'quartalyHand')
         .then(result =>{
             if(result != null){
-                if(now - new Date(result.date) >= 7889238000 ){
+                if(now - new Date(result.createdAt) >= 7889238000 ){
                     machineTable[a].quartalyStatus = 0;
                     machineTable[a].save();
                 }
@@ -477,7 +477,7 @@ function checkingHandlingStatus(machineTable){
         gettingLastHandling(machineTable[a].id, 'halfYearlyHand')
         .then(result =>{
             if(result != null){
-                if(now - new Date(result.date) >= 15778476000 ){
+                if(now - new Date(result.createdAt) >= 15552000000 ){
                     machineTable[a].halfYearlyStatus = 0;
                     machineTable[a].save();
                 }
@@ -489,8 +489,9 @@ function checkingHandlingStatus(machineTable){
 
         gettingLastHandling(machineTable[a].id, 'yearlyHand')
         .then(result =>{
+            console.log(result.createdAt)
             if(result != null){
-                if(now - new Date(result.date) >= 31556952000 ){
+                if(now - new Date(result.createdAt) >= 31556952000 ){
                     machineTable[a].yearlyStatus = 0;
                     machineTable[a].save();
                 }
@@ -505,6 +506,7 @@ function checkingHandlingStatus(machineTable){
 
 //funckja do pobierania ostatniej obsługi danego typu dla danej maszyny
 const gettingLastHandling = (machineId, handlingType) =>{
+    console.log("GETTTING LAST HANDLING!!!!")
     const result = Handling.findAll({
         limit: 1,
         where: {
