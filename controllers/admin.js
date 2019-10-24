@@ -344,11 +344,22 @@ exports.getDeleteUser = (req, res, next) => {
 
     User.findByPk(userId)
         .then(user => {
-            return user.destroy();
+            if(user.name != "admin"){
+                return user.destroy();
+            }
+            else{
+                return 20;
+            }
         })
-        .then(() => {
-            console.log('Użytkownik usunięty!');
-            res.redirect('/admin/userList');
+        .then(result => {
+            if(result != 20){
+                console.log('Użytkownik usunięty!');
+                res.redirect('/admin/userList');
+            }
+            else{
+                console.log('Nie można usunąć admina!')
+                res.redirect('/admin/userList');
+            }   
         })
         .catch(err => {
             console.log(err);
@@ -367,19 +378,30 @@ function insertHandsIntoTable(bodyHandString) {
         }
         else {
             if (hTable.length == 0) {
+                console.log(hRecord)
                 hTable.push(hRecord);
                 hRecord = '';
             }
             else {
                 hRecord = hRecord.substring(2, hRecord.length);
+                console.log(hRecord)
                 hTable.push(hRecord);
                 hRecord = '';
             }
         }
         if (a == bodyHandString.length - 1) {
-            hRecord = hRecord.substring(2, hRecord.length);
-            hTable.push(hRecord);
-            hRecord = '';
+            if(bodyHandString[a] == ';'){
+                console.log("Tutaj powinno się to skończyć")
+                break;
+            }
+            else{
+                console.log("Tutaj nie powinno się to skończyć!!!")
+                if(hTable.length != 0){
+                    hRecord = hRecord.substring(2, hRecord.length);
+                }
+                hTable.push(hRecord);
+                hRecord = '';
+            }
         }
     }
 
