@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('machine-manager', 'root', 'xc12mqWL', {
+const sequelize = new Sequelize('mmanager', 'manager', 'xc12mqWL', {
     dialect: 'mysql',
     host: 'localhost'
 });

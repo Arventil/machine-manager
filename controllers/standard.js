@@ -207,11 +207,13 @@ exports.postRegisterHandling = (req, res, next) => {
             concreteMachine = machine;
         })
         .then(()=>{
+            let now = new Date()
+            now.setHours(now.getHours() + 2)
             Handling.create({
                 handlingType: req.body.handlingType,
                 handlingTable: JSON.stringify(handlingsTable),
                 handlingResult: JSON.stringify(handlingResult),
-                date: new Date(),
+                date: now,
                 userName: req.user.name,
                 userId: req.user.id,
                 machineId: req.body.machineId
@@ -416,7 +418,9 @@ exports.getDownloadFile = (req, res, next) => {
 // funckja do sprawdzania statusu obsług
 function checkingHandlingStatus(machineTable){
 
-    let now = new Date();
+    let now = new Date()
+    now.setHours(now.getHours() + 2)
+    console.log(now)
     
     // obliczanie statusów dla każdej z obsług dla każdej z maszyn w tablicy (na podstawie różnicy milisekund)
     for(let a = 0; a < machineTable.length; a++){
@@ -489,7 +493,6 @@ function checkingHandlingStatus(machineTable){
 
         gettingLastHandling(machineTable[a].id, 'yearlyHand')
         .then(result =>{
-            console.log(result.createdAt)
             if(result != null){
                 if(now - new Date(result.createdAt) >= 31556952000 ){
                     machineTable[a].yearlyStatus = 0;
@@ -506,7 +509,7 @@ function checkingHandlingStatus(machineTable){
 
 //funckja do pobierania ostatniej obsługi danego typu dla danej maszyny
 const gettingLastHandling = (machineId, handlingType) =>{
-    console.log("GETTTING LAST HANDLING!!!!")
+    console.log("GETTTING LAST HANDLING.")
     const result = Handling.findAll({
         limit: 1,
         where: {
