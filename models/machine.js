@@ -42,19 +42,19 @@ const Machine = sequelize.define('machine', {
         type: Sequelize.BOOLEAN,
         allowNull: false
     },
-    dailyHand: Sequelize.STRING,
-    weeklyHand: Sequelize.STRING,
-    monthlyHand: Sequelize.STRING,
-    quartalyHand: Sequelize.STRING,
-    halfYearlyHand: Sequelize.STRING,
-    yearlyHand: Sequelize.STRING,
+    dailyHand: Sequelize.TEXT,
+    weeklyHand: Sequelize.TEXT,
+    monthlyHand: Sequelize.TEXT,
+    quartalyHand: Sequelize.TEXT,
+    halfYearlyHand: Sequelize.TEXT,
+    yearlyHand: Sequelize.TEXT,
     dailyStatus: Sequelize.BOOLEAN,
     weeklyStatus: Sequelize.BOOLEAN,
     monthlyStatus: Sequelize.BOOLEAN,
     quartalyStatus: Sequelize.BOOLEAN,
     halfYearlyStatus: Sequelize.BOOLEAN,
     yearlyStatus: Sequelize.BOOLEAN,
-    note: Sequelize.STRING(10000)
+    note: Sequelize.TEXT
 });
 
 module.exports = Machine;

@@ -21,6 +21,9 @@
                         <option value="adminUser">Administrator</option>
                     </select>
                 </div>
+                <% if(editing){ %>
+                    <input type="hidden" name="userId" id="userId" value="<%= user.id %>">
+                <% } %>
                 <br>
                 <button class="btn" type="submit"><% if(editing){ %> Aktualizuj użytkownika <% }else{ %> Dodaj użytkownika <% } %></button>
             </form>

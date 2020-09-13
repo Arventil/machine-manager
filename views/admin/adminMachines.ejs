@@ -91,24 +91,28 @@
                                 </td>
                             </tr>
                             <% if(machine.ifInspectionInsurance) { %>
-                            <tr>
-                                <td class="machine_param">
-                                    Ważność przeglądu:
-                                </td>
-                                <td
-                                    class="machine_param <%= machineInspectionDate <= twoWeeksLater ? 'red' : 'green' %>">
-                                    <%= machine.inspectionDate %>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="machine_param">
-                                    Ważność ubezpieczenia:
-                                </td>
-                                <td
-                                    class="machine_param <%= machineInsuranceDate <= twoWeeksLater ? 'red' : 'green' %>">
-                                    <%= machine.insuranceDate %>
-                                </td>
-                            </tr>
+                                <% if(machine.inspectionDate != null){ %>
+                                    <tr>
+                                        <td class="machine_param">
+                                            Ważność przeglądu:
+                                        </td>
+                                        <td
+                                            class="machine_param <%= machineInspectionDate <= twoWeeksLater ? 'red' : 'green' %>">
+                                            <%= machine.inspectionDate %>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                                <% if(machine.insuranceDate != null){ %>
+                                    <tr>
+                                        <td class="machine_param">
+                                            Ważność ubezpieczenia:
+                                        </td>
+                                        <td
+                                            class="machine_param <%= machineInsuranceDate <= twoWeeksLater ? 'red' : 'green' %>">
+                                            <%= machine.insuranceDate %>
+                                        </td>
+                                    </tr>
+                                <% } %>
                             <% } %>
                         </table>
                     </div>

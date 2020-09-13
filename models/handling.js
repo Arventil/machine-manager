@@ -9,15 +9,15 @@ const Handling = sequelize.define('handling', {
         primaryKey: true
     },
     handlingType: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
     },
     handlingTable: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
     },
     handlingResult: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
     },
     date: {

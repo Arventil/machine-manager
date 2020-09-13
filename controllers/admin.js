@@ -92,9 +92,14 @@ exports.postAddMachine = (req, res, next) => {
     let yHString = req.body.yearlyHand;
     let yHTable = insertHandsIntoTable(yHString);
 
-    if(!ifII)
-    {
+    if(!ifII){
         inspectionDate = null;
+        insuranceDate = null;
+    }
+    if(inspectionDate == ""){
+        inspectionDate = null;
+    }
+    if(insuranceDate == ""){
         insuranceDate = null;
     }
 
@@ -193,6 +198,17 @@ exports.postEditMachine = (req, res, next) => {
     console.log(updatedIfQH);
     console.log(updatedIfHYH);
     console.log(updatedIfYH);
+
+    if(!updatedIfII){
+        inspectionDate = null;
+        insuranceDate = null;
+    }
+    if(updatedInspectionDate == ""){
+        updatedInspectionDate = null;
+    }
+    if(updatedInsuranceDate == ""){
+        updatedInsuranceDate = null;
+    }
 
     Machine.findByPk(machineId)
         .then(machine => {
@@ -311,8 +327,9 @@ exports.postEditUser = (req, res, next) => {
     let userName = req.body.userName;
     let password = req.body.password;
     let role = req.body.role;
+    let userId = req.body.userId
 
-    User.findOne({where: {name: userName}})
+    User.findOne({where: {id: userId}})
     .then(user => {
         user.name = userName;
         user.role = role;

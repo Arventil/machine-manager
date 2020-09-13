@@ -427,8 +427,8 @@ function checkingHandlingStatus(machineTable){
         gettingLastHandling(machineTable[a].id, 'dailyHand')
         .then(result =>{
             if(result != null){
-                if(((result.createdAt.getHours() < 7 || result.createdAt.getHours() >= 19) && (now.getHours() >= 7 && now.getHours() < 19)) 
-                    || ((result.createdAt.getHours() >= 7 && result.createdAt.getHours() < 19) && (now.getHours() < 7 || now.getHours() >= 19))
+                if(((result.createdAt.getHours() + 2 < 7 || result.createdAt.getHours() + 2 >= 19) && (now.getHours() >= 7 && now.getHours() < 19)) 
+                    || ((result.createdAt.getHours() + 2 >= 7 && result.createdAt.getHours() + 2 < 19) && (now.getHours() < 7 || now.getHours() >= 19))
                     || now - new Date(result.createdAt) > 43200000){
                     machineTable[a].dailyStatus = 0;
                     machineTable[a].save();
