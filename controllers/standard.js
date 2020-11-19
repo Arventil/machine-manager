@@ -192,7 +192,7 @@ exports.postRegisterHandling = (req, res, next) => {
         }
     }
 
-    handlingsTable = changedHandlingsTableString.split(',');
+    handlingsTable = changedHandlingsTableString.split('$%*twdM');
 
     for (let a = 0; a < handlingsTable.length; a++) {
         let result = req.body[a];
@@ -255,71 +255,73 @@ exports.postRegisterHandling = (req, res, next) => {
 exports.getHistory = (req, res, next) => {
     let machineId = req.params.machineId;
     let machineName;
-
+    
     Machine.findByPk(machineId)
         .then(machine => {
             machineName = machine.name;
+            Handling.findAll({ where: { machineId: machineId } })
+                .then(handlings => {
+                    //Obliczanie nazw typów obsług i umieszczanie ich w tablicy, tak aby ich indeksy pasowały do indeksów obsług
+                    let handlingsTypesNames = [];
+                    for (let a = 0; a < handlings.length; a++) {
+                        let handlingTypeName;
+                        switch (handlings[a].handlingType) {
+                            case 'dailyHand':
+                                handlingTypeName = 'Codzienna';
+                                break;
+                            case 'weeklyHand':
+                                handlingTypeName = 'Tygodniowa';
+                                break;
+                            case 'monthlyHand':
+                                handlingTypeName = 'Miesięczna';
+                                break;
+                            case 'quartalyHand':
+                                handlingTypeName = 'Kwartalna';
+                                break;
+                            case 'halfYearlyHand':
+                                handlingTypeName = 'Półroczna';
+                                break;
+                            case 'yearlyHand':
+                                handlingTypeName = 'Roczna';
+                                break;
+                        }
+
+                        handlingsTypesNames.push(handlingTypeName);
+                    }
+
+                    
+                    // Obliczanie statusów i umieszczanie ich w tablicy, tak aby ich indeksy pasowały do indeksów obsług
+                    let handlingsStatuses = [];
+                    for (let a = 0; a < handlings.length; a++) {
+                        let status = 'OK';
+                        handlingResult = JSON.parse(handlings[a].handlingResult);
+                        for (let i = 0; i < handlingResult.length; i++) {
+                            if (handlingResult[i] == 'NOK') {
+                                status = 'NOK';
+                            }
+                        }
+                        handlingsStatuses.push(status);
+                    }
+
+                    handlings.reverse();
+                    handlingsTypesNames.reverse();
+                    handlingsStatuses.reverse();
+                    
+                    
+
+                    res.render('standard/history.ejs', {
+                        pageTitle: 'Historia',
+                        path: '/history',
+                        handlings: handlings,
+                        handlingsTypesNames: handlingsTypesNames,
+                        handlingsStatuses: handlingsStatuses,
+                        machineName: machineName
+                    });
+                })
         })
         .catch(err => {
             console.log(err);
         });
-
-    Handling.findAll({ where: { machineId: machineId } })
-        .then(handlings => {
-            //Obliczanie nazw typów obsług i umieszczanie ich w tablicy, tak aby ich indeksy pasowały do indeksów obsług
-            let handlingsTypesNames = [];
-            for (let a = 0; a < handlings.length; a++) {
-                let handlingTypeName;
-                switch (handlings[a].handlingType) {
-                    case 'dailyHand':
-                        handlingTypeName = 'Codzienna';
-                        break;
-                    case 'weeklyHand':
-                        handlingTypeName = 'Tygodniowa';
-                        break;
-                    case 'monthlyHand':
-                        handlingTypeName = 'Miesięczna';
-                        break;
-                    case 'quartalyHand':
-                        handlingTypeName = 'Kwartalna';
-                        break;
-                    case 'halfYearlyHand':
-                        handlingTypeName = 'Półroczna';
-                        break;
-                    case 'yearlyHand':
-                        handlingTypeName = 'Roczna';
-                        break;
-                }
-
-                handlingsTypesNames.push(handlingTypeName);
-            }
-
-            // Obliczanie statusów i umieszczanie ich w tablicy, tak aby ich indeksy pasowały do indeksów obsług
-            let handlingsStatuses = [];
-            for (let a = 0; a < handlings.length; a++) {
-                let status = 'OK';
-                handlingResult = JSON.parse(handlings[a].handlingResult);
-                for (let i = 0; i < handlingResult.length; i++) {
-                    if (handlingResult[i] == 'NOK') {
-                        status = 'NOK';
-                    }
-                }
-                handlingsStatuses.push(status);
-            }
-
-            handlings.reverse();
-            handlingsTypesNames.reverse();
-            handlingsStatuses.reverse();
-
-            res.render('standard/history.ejs', {
-                pageTitle: 'Historia',
-                path: '/history',
-                handlings: handlings,
-                handlingsTypesNames: handlingsTypesNames,
-                handlingsStatuses: handlingsStatuses,
-                machineName: machineName
-            });
-        })
 };
 
 exports.getHistoryHandling = (req, res, next) => {

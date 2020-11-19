@@ -24,6 +24,7 @@
                 <% } %>
             </div>
             <div class="tableContainer">
+                <button class="btn" id="markUnmark" style="margin-bottom: 5px;"><b>Zaznacz/odznacz wszystko</b></button><br>
                 <form action="/registerHandling" method="POST">
                     <table class="customTable">
                         <tr>
@@ -50,7 +51,7 @@
                                     }
                                 }
                                 if(a < handlingsTable.length - 1){
-                                    handlingsTableToPass = handlingsTableToPass + ',';
+                                    handlingsTableToPass = handlingsTableToPass + '$%*twdM';
                                 }
                                 <!-- +++ Koniec zastępowania znaków spacji -->
                                 <!-- Początek sekcji pętli w której tworzony jest formularz -->
@@ -77,4 +78,30 @@
             </div>
         </div>
     </main>
+    <script>
+        let markUnmark = document.querySelector("#markUnmark");
+        let radiosOK = document.querySelectorAll('input[value="OK"]');
+        let radiosNOK = document.querySelectorAll('input[value="NOK"]')
+        let checker = 0;
+
+        markUnmark.addEventListener("click", markUnmarkAll)
+        function markUnmarkAll(){
+            if(checker === 0){
+                for(let a = 0; a < radiosOK.length; a++){
+                    radiosOK[a].checked = "true";
+                    console.log("here")
+                }
+                checker = 1;
+
+                console.log(radiosNOK.length)
+            } else {
+                for(let a = 0; a < radiosNOK.length; a++){
+                    radiosNOK[a].checked = "true";
+                    console.log("Now HERE")
+                }
+                checker = 0;
+            }
+        }
+    </script> 
+    
 <%- include('../../includes/end') %>
