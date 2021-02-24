@@ -27,4 +27,6 @@ router.post('/files/:machineId', authCheck.isAuth, standardController.postFiles)
 
 router.get('/downloadFile/:machineId/:nameOfFile', authCheck.isAuth, standardController.getDownloadFile);
 
+router.get('/deleteFile/:machineId/:nameOfFile', authCheck.isAuth, authCheck.isAdmin, standardController.deleteFile)
+
 module.exports = router;

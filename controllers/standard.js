@@ -417,6 +417,24 @@ exports.getDownloadFile = (req, res, next) => {
     });
 };
 
+exports.deleteFile = (req, res, next) => {
+    const machineId = req.params.machineId;
+    const nameOfFile = req.params.nameOfFile;
+
+    console.log(machineId);
+
+    const filePath = path.join('./files/', machineId, '/', nameOfFile);
+
+    console.log(filePath);
+
+    fs.unlink(filePath, (err) => {
+        if(err) {
+            return next(err);
+        }
+        res.redirect('back');
+    });
+};
+
 // funckja do sprawdzania statusu obsług
 function checkingHandlingStatus(machineTable){
 
