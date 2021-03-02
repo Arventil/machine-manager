@@ -1,0 +1,136 @@
+<%- include('../../includes/head') %>
+<link rel="stylesheet" href="/css/forms.css">
+</head>
+
+<body>
+    <%- include('../../includes/navigation') %>
+    <main>
+        <div class="generalContainer">
+            <div id="diaryModal" class="modals">
+                <form class="machine-form" action="/addDiary" method="POST" id="addDiary">
+                    <div class="form-control">
+                        <label for="title">Dodaj tytuł wpisu (maks. 40 znaków)</label>
+                        <input type="text" name="title" id="title" maxlength="40" value="Tutaj zamieść tytuł wpisu...">
+                    </div>
+                    <div class="form-control">
+                        <label for="content">Dodaj treść wpisu</label>
+                        <textarea id="content" name="content" form="addDiary">Tutaj zamieść treść wpisu...</textarea>
+                    </div>
+                    <input type="hidden" name="machineId" id="machineId" value="<%= machineId %>">
+                    <button class="btn" type="submit">Dodaj wpis</button>
+                </form>
+                <br>
+                <div class="machine-form">
+                    <button class="btn" id="cancel" style="margin-left: 0px">Anuluj</button>  
+                </div>      
+            </div>
+
+            <div id="details" class="modals">
+                <div class="machineTitle" style="overflow: visible;">
+                    <p id="detailsMachine" style="margin: 0 0"></p>
+                    <p class="handlingType" id="detailsDate"></p>
+                    <p class="handlingType" id="detailsUser"></p>
+                    <div style="border: 2px solid;">
+                        <p class="handlingType" id="detailsTitle" style="text-decoration: underline"></p>
+                        <p class="handlingType" id="detailsContent"></p>
+                    </div>
+                </div>
+                <button onclick="showHideDetails()" class="btn" style="margin-left: 0px; position: absolute; bottom: 0px; display: inline-block">Powrót do listy</button>
+                <form id="deleteDiary" method="POST">
+                    <button type="submit" class="btn  <%= userRole == 'regularUser' ? 'dontShow' : '' %>" style="margin-left: 0px; position: absolute; bottom: 0px; right: 0px;">Usuń wpis</button>
+                </form>
+            </div>
+
+            <div class="tableContainer">
+                <table class="customTable history">
+                    <tr>
+                        <th>
+                            Tytuł wpisu
+                        </th>
+                        <th>
+                            Data wpisu
+                        </th>
+                        <th>
+                            Dodany przez
+                        </th>
+                        <th>
+                            Skrót
+                        </th>
+                    </tr>
+                    <% for(let a = 0; a < diaries.length; a++) { %>
+                        <tr class="historyRow <% if(a == diaries.length - 1){ %> end <% } %>" onclick="showHideDetails('<%= machineName %>', '<%= diaries[a].date %>','<%= diaries[a].userName %>', '<%= diaries[a].title %>', '<%= diaries[a].content %>', '<%= diaries[a].id %>', '<%= machineId %>')">
+                            <td>
+                                <a class="historyLink"><%= diaries[a].title %></a> 
+                            </td>
+                            <td>
+                                <a class="historyLink"><%= diaries[a].date %></a> 
+                            </td>
+                            <td>
+                                <a class="historyLink"><%= diaries[a].userName %></a> 
+                            </td>
+                            <td style="overflow: hidden;">
+                                <a class="historyLink"><%= (diaries[a].content.replace(/\$%newLine\*&heh/g, ' ')).slice(0, 40) + (diaries[a].content.replace(/\$%newLine\*&heh/g, ' ').slice(0, 40).length == 40 ? '...' : '')%></a> 
+                            </td>
+                        </tr>
+                    <% } %>
+                </table>
+            </div>
+            <button class="btn2" id="addNewDiary" style="margin-top: 10px; margin-left: 0px">Dodaj nowy wpis</button>
+        </div>
+    </main>
+<%- include('../../includes/end') %>
+
+<script>
+    let showModal = false;
+    let showDetails = false;
+    let addButton = document.querySelector('#addNewDiary');
+    let cancelButton = document.querySelector('#cancel');
+    let modal = document.querySelector('#diaryModal');
+    let tableContainer = document.querySelector('.tableContainer');
+
+    let details = document.querySelector('#details');
+    let detailsUser = document.querySelector('#detailsUser');
+    let detailsTitle = document.querySelector('#detailsTitle');
+    let detailsMachine = document.querySelector('#detailsMachine');
+    let detailsContent = document.querySelector('#detailsContent');
+    let detailsDate = document.querySelector('#detailsDate');
+    let deleteDiaryForm = document.querySelector('#deleteDiary');
+
+    addButton.addEventListener('click', showHideDiaryModal)
+    cancelButton.addEventListener('click', showHideDiaryModal)
+
+    function showHideDiaryModal() {
+        if (showModal){
+            modal.style.display = 'none';
+            tableContainer.style.display = 'block'
+            addButton.style.display = 'block'
+            showModal = false;
+        } else {
+            modal.style.display = 'block';
+            tableContainer.style.display = 'none'
+            addButton.style.display = 'none'
+            showModal = true;
+        }
+    }
+
+    function showHideDetails(machineName, date, userName, title, content, diaryId, machineId) {
+        if(showDetails){
+            tableContainer.style.display = 'block'
+            addButton.style.display = 'block'
+            details.style.display = 'none';
+            showDetails = false;
+        } else {
+            let reFormatedContent = content.replace(/\$%newLine\*&heh/g, '<br>')
+            tableContainer.style.display = 'none'
+            addButton.style.display = 'none'
+            details.style.display = 'block';
+            detailsUser.innerHTML = 'Wprowadzający: ' + userName;
+            detailsMachine.innerHTML = machineName;
+            detailsTitle.innerHTML = title;
+            detailsContent.innerHTML = reFormatedContent;
+            detailsDate.innerHTML = 'Wpis z dnia: ' + date;
+            deleteDiaryForm.action = '/deleteDiary/' + diaryId + '/' + machineId;
+            showDetails = true;
+        }
+    }
+</script>

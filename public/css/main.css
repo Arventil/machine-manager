@@ -229,6 +229,10 @@ form {
   width: 32%;
 }
 
+.diaryButton {
+  width: 100%;
+}
+
 .note-container {
   border-top: 1px solid black;
   padding: 10px 0;
@@ -292,5 +296,18 @@ div.addFile {
   font-size: 18px;
   display: none;
 }
+
+.modals{
+  width: 100%; 
+  height: 725px; 
+  display: none;
+  overflow: visible;
+  position: relative;
+}
+
+.dontShow{
+  display: none;
+}
+
 
 

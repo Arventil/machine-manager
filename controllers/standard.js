@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 
 const Machine = require('../models/machine');
 const Handling = require('../models/handling');
+const Diary = require('../models/diary');
+const { networkInterfaces } = require('os');
 
 const Op = Sequelize.Op;
 
@@ -434,6 +436,68 @@ exports.deleteFile = (req, res, next) => {
         res.redirect('back');
     });
 };
+
+exports.getDiaryList = (req, res, next) => {
+    let diaries;
+    Diary.findAll({
+        where: {
+            machineId: req.params.machineId
+        }
+    })
+    .then(resultDiaries => {
+        diaries = resultDiaries;
+        return Machine.findByPk(req.params.machineId);
+    })
+    .then(machine => {
+        return res.render('standard/diaryList.ejs', {
+            pageTitle: 'Dziennik',
+            path: '/diaryList',
+            machineId: machine.id,
+            machineName: machine.name,
+            diaries: diaries,
+            userRole: req.user.role
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+
+exports.postAddDiary = (req, res, next) => {
+    const content = req.body.content;
+    console.log(req.body.content)
+    console.log(req.body.content.length)
+    console.log(req.body.content[1] + ', ' + req.body.content[2])
+
+    const formatedContent = content.replace(/\r\n/g, '$%newLine*&heh');
+
+    Diary.create({
+        title: req.body.title,
+        content: formatedContent,
+        machineId: req.body.machineId,
+        userName: req.user.name,
+        date: new Date()
+    })
+    .then(() => {
+        res.redirect('/diaryList/' + req.body.machineId)
+    })
+}
+
+exports.deleteDiary = (req, res, next) => {
+    Diary.findByPk(req.params.diaryId)
+    .then(diary => {
+        if(diary){
+             return diary.destroy();
+        }
+        return null;
+    })
+    .then(() => {
+        return res.redirect('/diaryList/' + req.params.machineId)
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
 
 // funckja do sprawdzania statusu obsług
 function checkingHandlingStatus(machineTable){

@@ -29,4 +29,8 @@ router.get('/downloadFile/:machineId/:nameOfFile', authCheck.isAuth, standardCon
 
 router.get('/deleteFile/:machineId/:nameOfFile', authCheck.isAuth, authCheck.isAdmin, standardController.deleteFile)
 
+router.get('/diaryList/:machineId', authCheck.isAuth, standardController.getDiaryList)
+router.post('/addDiary', authCheck.isAuth, standardController.postAddDiary)
+router.post('/deleteDiary/:diaryId/:machineId', authCheck.isAuth, authCheck.isAdmin, standardController.deleteDiary)
+
 module.exports = router;

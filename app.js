@@ -21,6 +21,7 @@ const adminRoutes = require('./routes/admin');
 const User = require('./models/user');
 const Machine = require('./models/machine');
 const Handling = require('./models/handling');
+const Diary = require('./models/diary')
 
 //creating const for using express
 const app = express();
@@ -109,6 +110,7 @@ app.use((req, res, next) => {
 
 User.hasMany(Handling);
 Machine.hasMany(Handling);
+User.hasMany(Diary);
 
 sequelize
     // .sync({force: true})
