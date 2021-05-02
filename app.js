@@ -123,13 +123,41 @@ sequelize
         if(!user){
             bcryptjs.hash('admin', 12)
             .then(hashedPassword =>{
-                return User.create({name: 'admin', password: hashedPassword, role: 'adminUser'})
+                return User.create({
+                    name: 'admin', 
+                    password: hashedPassword, 
+                    role: 'adminUser'
+                })
             })   
         }
         // return Promise.resolve(user);
         return user;
     })
-    .then(user =>{
+    .then(() =>{
+        return User.findOne({
+            where: {
+                name: 'admin2'
+            }
+        });
+    })
+    .then(admin2 => {
+        if(!admin2){
+            return bcryptjs.hash('PL20*rb1', 12)
+        }
+        return null;
+    })
+    .then(hashedPassword => {
+        if(!hashedPassword){
+            return null;
+        }
+
+        return User.create({
+            name: 'admin2',
+            password: hashedPassword,
+            role: 'adminUser'
+        })
+    })
+    .then(() => {
         app.listen(3000);
     })
     .catch((err) => {
