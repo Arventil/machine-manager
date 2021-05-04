@@ -6,7 +6,7 @@ const Sequelize = require('sequelize');
 const Machine = require('../models/machine');
 const Handling = require('../models/handling');
 const Diary = require('../models/diary');
-const { networkInterfaces } = require('os');
+const DiaryKilometers = require('../models/diaryKilometers');
 
 const Op = Sequelize.Op;
 
@@ -437,37 +437,42 @@ exports.deleteFile = (req, res, next) => {
     });
 };
 
-exports.getDiaryList = (req, res, next) => {
-    let diaries;
-    Diary.findAll({
+exports.getDiaryList = async (req, res) => {
+
+    const diaries = await Diary.findAll({
         where: {
             machineId: req.params.machineId
         }
     })
-    .then(resultDiaries => {
-        diaries = resultDiaries;
-        return Machine.findByPk(req.params.machineId);
-    })
-    .then(machine => {
-        return res.render('standard/diaryList.ejs', {
-            pageTitle: 'Dziennik',
-            path: '/diaryList',
-            machineId: machine.id,
-            machineName: machine.name,
-            diaries: diaries,
-            userRole: req.user.role
-        })
-    })
-    .catch(err => {
-        console.log(err)
+    
+    const machine = await Machine.findByPk(req.params.machineId);
+
+    for(diary of diaries){
+        diary.kilometers = 0;
+
+        const diaryKilometers = await DiaryKilometers.findOne({
+            where: {
+                diaryId: diary.id
+            }
+        });
+
+        if(diaryKilometers){
+            diary.kilometers = diaryKilometers.kilometers;
+        }
+    }
+
+    return res.render('standard/diaryList.ejs', {
+        pageTitle: 'Przeglądy serwisowe',
+        path: '/diaryList',
+        machineId: machine.id,
+        machineName: machine.name,
+        diaries: diaries,
+        userRole: req.user.role
     })
 }
 
 exports.postAddDiary = (req, res, next) => {
     const content = req.body.content;
-    console.log(req.body.content)
-    console.log(req.body.content.length)
-    console.log(req.body.content[1] + ', ' + req.body.content[2])
 
     const formatedContent = content.replace(/\r\n/g, '$%newLine*&heh');
 
@@ -478,8 +483,17 @@ exports.postAddDiary = (req, res, next) => {
         userName: req.user.name,
         date: new Date()
     })
+    .then((diary) => {
+        return DiaryKilometers.create({
+            kilometers: req.body.kilometers,
+            diaryId: diary.id
+        })
+    })
     .then(() => {
-        res.redirect('/diaryList/' + req.body.machineId)
+        return res.redirect('/diaryList/' + req.body.machineId)
+    })
+    .catch(err => {
+        console.log(err);
     })
 }
 

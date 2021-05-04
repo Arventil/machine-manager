@@ -16,6 +16,10 @@
                         <label for="content">Dodaj treść wpisu</label>
                         <textarea id="content" name="content" form="addDiary">Tutaj zamieść treść wpisu...</textarea>
                     </div>
+                    <div class="form-control">
+                        <label for="kilometers">Podaj stan kilometrów</label>
+                        <textarea id="kilometers" name="kilometers" form="addDiary">0</textarea>
+                    </div>
                     <input type="hidden" name="machineId" id="machineId" value="<%= machineId %>">
                     <button class="btn" type="submit">Dodaj wpis</button>
                 </form>
@@ -29,6 +33,7 @@
                 <div class="machineTitle" style="overflow: visible;">
                     <p id="detailsMachine" style="margin: 0 0"></p>
                     <p class="handlingType" id="detailsDate"></p>
+                    <p class="handlingType" id="detailsKilometers"></p>
                     <p class="handlingType" id="detailsUser"></p>
                     <div style="border: 2px solid;">
                         <p class="handlingType" id="detailsTitle" style="text-decoration: underline"></p>
@@ -51,6 +56,9 @@
                             Data wpisu
                         </th>
                         <th>
+                            Stan kilometrów
+                        </th>
+                        <th>
                             Dodany przez
                         </th>
                         <th>
@@ -58,12 +66,15 @@
                         </th>
                     </tr>
                     <% for(let a = 0; a < diaries.length; a++) { %>
-                        <tr class="historyRow <% if(a == diaries.length - 1){ %> end <% } %>" onclick="showHideDetails('<%= machineName %>', '<%= diaries[a].date %>','<%= diaries[a].userName %>', '<%= diaries[a].title %>', '<%= diaries[a].content %>', '<%= diaries[a].id %>', '<%= machineId %>')">
+                        <tr class="historyRow <% if(a == diaries.length - 1){ %> end <% } %>" onclick="showHideDetails('<%= machineName %>', '<%= diaries[a].date %>','<%= diaries[a].userName %>', '<%= diaries[a].title %>', '<%= diaries[a].content %>', '<%= diaries[a].id %>', '<%= machineId %>', '<%= diaries[a].kilometers %>')">
                             <td>
                                 <a class="historyLink"><%= diaries[a].title %></a> 
                             </td>
                             <td>
                                 <a class="historyLink"><%= diaries[a].date %></a> 
+                            </td>
+                            <td>
+                                <a class="historyLink"><%= diaries[a].kilometers %></a> 
                             </td>
                             <td>
                                 <a class="historyLink"><%= diaries[a].userName %></a> 
@@ -94,6 +105,7 @@
     let detailsMachine = document.querySelector('#detailsMachine');
     let detailsContent = document.querySelector('#detailsContent');
     let detailsDate = document.querySelector('#detailsDate');
+    let detailsKilometers = document.querySelector('#detailsKilometers');
     let deleteDiaryForm = document.querySelector('#deleteDiary');
 
     addButton.addEventListener('click', showHideDiaryModal)
@@ -113,7 +125,7 @@
         }
     }
 
-    function showHideDetails(machineName, date, userName, title, content, diaryId, machineId) {
+    function showHideDetails(machineName, date, userName, title, content, diaryId, machineId, kilometers) {
         if(showDetails){
             tableContainer.style.display = 'block'
             addButton.style.display = 'block'
@@ -129,6 +141,7 @@
             detailsTitle.innerHTML = title;
             detailsContent.innerHTML = reFormatedContent;
             detailsDate.innerHTML = 'Wpis z dnia: ' + date;
+            detailsKilometers.innerHTML = 'Stan kilometrów: ' + kilometers;
             deleteDiaryForm.action = '/deleteDiary/' + diaryId + '/' + machineId;
             showDetails = true;
         }

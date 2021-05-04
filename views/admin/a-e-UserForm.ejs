@@ -4,14 +4,14 @@
 <body>
     <%- include('../../includes/adminNavigation') %>
     <main>
-        <div class="form-container">
-            <form class="machine-form" action="<%= editing ? '/admin/editUser' : '/admin/addUser' %>" method="POST">
+        <div class="form-container <%= editing ? 'hide' : '' %>">
+            <form class="machine-form" action="/admin/addUser" method="POST">
                 <div class="form-control">
-                    <label for="userName"><% if(editing){ %> Podaj nową nazwę użytkownika <% }else{ %> Podaj nazwę nowego użytkownika <% } %></label>
+                    <label for="userName">Podaj nazwę nowego użytkownika</label>
                     <input type="text" name="userName" id="userName" value="<%= editing ? user.name : '' %>">
                 </div>
                 <div class="form-control">
-                    <label for="password"><% if(editing){ %> Podaj nowe hasło (pozostaw puste aby nie zmieniać) <% }else{ %>Utwórz hasło <% } %></label>
+                    <label for="password">Utwórz hasło</label>
                     <input type="password" name="password" id="password">
                 </div>
                 <div class="form-control">
@@ -21,15 +21,52 @@
                         <option value="adminUser">Administrator</option>
                     </select>
                 </div>
-                <% if(editing){ %>
-                    <input type="hidden" name="userId" id="userId" value="<%= user.id %>">
-                <% } %>
                 <br>
-                <button class="btn" type="submit"><% if(editing){ %> Aktualizuj użytkownika <% }else{ %> Dodaj użytkownika <% } %></button>
+                <button class="btn" type="submit">Dodaj użytkownika</button>
+            </form>
+            <br>
+        </div>
+
+        <div class="form-container <%= editing ? '' : 'hide' %>" >
+            <form class="machine-form" method="POST" action="/admin/editUserName">
+                <div class="form-control">
+                    <label for="userName">Podaj nową nazwę użytkownika</label>
+                    <input type="text" name="userName" value="<%= user.name %>">
+                    <input type="hidden" name="userId" value="<%= user.id %>">
+                </div>
+                <button class="btn" type="submit">Zmień nazwę użytkownika</button>
+            </form>
+            <br>
+            <form class="machine-form" method="POST" action="/admin/editUserPassword">
+                <div class="form-control">
+                    <label for="password">Podaj nowe hasło</label>
+                    <input type="password" name="password">
+                    <input type="hidden" name="userId" value="<%= user.id %>">
+                </div>
+                <button class="btn" type="submit">Zmień hasło użytkownika</button>
+            </form>
+            <br>
+            <form class="machine-form" method="POST" action="/admin/editUserRole">
+                <div class="form-control">
+                    <label for="role">Wybierz rolę</label>
+                    <select name="role">
+                        <option <%= user.role === 'regularUser' ? 'selected' : '' %> value="regularUser">Użytkownik</option>
+                        <option <%= user.role === 'adminUser' ? 'selected' : '' %> value="adminUser">Administrator</option>
+                    </select>
+                    <input type="hidden" name="userId" value="<%= user.id %>">
+                </div>
+                <button class="btn" type="submit">Zmień rolę użytkownika</button>
             </form>
             <br>
         </div>
     </main>
 </body>
-
 </html>
+
+<script>
+    let message = '<%= message %>';
+
+    if(message){
+        alert(message);
+    }
+</script>

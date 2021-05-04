@@ -15,6 +15,7 @@ exports.postLoginPage = (req, res, next) => {
 
     let loginName = req.body.loginName;
     let password = req.body.loginPassword;
+    let recivedUser;
 
     User.findOne({where: {name: loginName}})
         .then(user => {
@@ -29,6 +30,7 @@ exports.postLoginPage = (req, res, next) => {
                 }
                 req.session.isLoggedIn = true;
                 req.session.userName = loginName;
+                req.session.role = user.role;
                 res.redirect('/awaitingMachines');
             })
             .catch(err => {

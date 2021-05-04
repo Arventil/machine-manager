@@ -260,7 +260,9 @@ exports.getAddUser = (req, res, next) => {
     res.render('admin/a-e-UserForm', {
         pageTitle: 'Dodaj użytkownika',
         path: '/admin/addUser',
-        editing: false
+        editing: false,
+        user: '',
+        message: ''
     });
 }
 
@@ -307,7 +309,7 @@ exports.getUserList = (req, res, next) => {
     })
 }
 
-exports.getEditUser = (req, res, next) => {
+exports.getEditUser = (req, res) => {
     let userId = req.params.userId;
     const editMode = req.query.edit;
 
@@ -317,30 +319,76 @@ exports.getEditUser = (req, res, next) => {
             pageTitle: 'Edytuj użytkownika',
             path: '/admin/editUser',
             user: user,
-            editing: editMode
+            editing: editMode,
+            message: ''
         })
     })
 }
 
-exports.postEditUser = (req, res, next) => {
+exports.postEditUserName = (req, res) => {
+    let newUserName = req.body.userName;
+    let userId = req.body.userId;
+    let oldUserName;
 
-    let userName = req.body.userName;
+    User.findByPk(userId)
+    .then(user => {
+        oldUserName = user.name;
+
+        if(req.user.name === user.name){
+            console.log('heh');
+            console.log(req.user.name);
+            console.log(user.name)
+            console.log('heh2')
+            return res.render('admin/a-e-UserForm', {
+                pageTitle: 'Edytuj użytkownika',
+                path: '/admin/editUser',
+                user: user,
+                editing: true,
+                message: 'Nie możesz zmienić nazwy aktualnie zalogowanego użytkownika!'
+            })
+        }
+
+        user.name = newUserName;
+
+        return user.save();
+    })
+    .then(user => {
+        if(!user){
+            return null;
+        }
+        return res.render('admin/a-e-UserForm', {
+            pageTitle: 'Edytuj użytkownika',
+            path: '/admin/editUser',
+            user: user,
+            editing: true,
+            message: `Pomyślnie zmieniono nazwę użytkownika ${oldUserName} na ${user.name}`
+        });
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+exports.postEditUserPassword = (req, res) => {
     let password = req.body.password;
-    let role = req.body.role;
     let userId = req.body.userId
 
     User.findOne({where: {id: userId}})
     .then(user => {
-        user.name = userName;
-        user.role = role;
         if(password != ''){
             bcryptjs.hash(password, 12)
             .then(hashedPassword =>{
                 user.password = hashedPassword;
                 return user.save();
             })
-            .then(result =>{
-                res.redirect('/admin/userList');
+            .then(() =>{
+                return res.render('admin/a-e-UserForm', {
+                    pageTitle: 'Edytuj użytkownika',
+                    path: '/admin/editUser',
+                    user: user,
+                    editing: true,
+                    message: `Hasło użytkownika ${user.name} zostało pomyślnie zmienione!`
+                });
             })
             .catch(err => {
                 console.log(err);
@@ -348,7 +396,13 @@ exports.postEditUser = (req, res, next) => {
         }
         else{
             user.save();
-            res.redirect('/admin/userList');
+            return res.render('admin/a-e-UserForm', {
+                pageTitle: 'Edytuj użytkownika',
+                path: '/admin/editUser',
+                user: user,
+                editing: true,
+                message: 'Hasło nie może być puste!'
+            });
         }
     })
     .catch(err => {
@@ -356,7 +410,45 @@ exports.postEditUser = (req, res, next) => {
     });
 }
 
-exports.getDeleteUser = (req, res, next) => {
+exports.postEditUserRole = (req, res) => {
+    let role = req.body.role;
+    let userId = req.body.userId;
+
+    User.findByPk(userId)
+    .then(user => {
+        if(req.user.name === user.name){
+            return res.render('admin/a-e-UserForm', {
+                pageTitle: 'Edytuj użytkownika',
+                path: '/admin/editUser',
+                user: user,
+                editing: true,
+                message: 'Nie możesz zmienić roli aktualnie zalogowanego użytkownika!'
+            })
+        }
+
+        user.role = role;
+
+        return user.save();
+    })
+    .then((user) => {
+        if(!user){
+            return null;
+        }
+
+        return res.render('admin/a-e-UserForm', {
+            pageTitle: 'Edytuj użytkownika',
+            path: '/admin/editUser',
+            user: user,
+            editing: true,
+            message: `Pomyślnie zmienione rolę użytkownika ${user.name} na ${user.role === 'adminUser' ? 'Administrator' : 'Użytkownik'}`
+        });
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+exports.getDeleteUser = (req, res) => {
     let userId = req.params.userId;
 
     User.findByPk(userId)
